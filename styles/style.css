@@ -21,7 +21,7 @@ footer {
     color: #c1aa7f;
     align-items: center;
     justify-content: center;
-    height: 4rem;
+    height: 3rem;
     width: 100%;
 }
 
@@ -38,24 +38,29 @@ button {
 #scoreboard2,
 #scoreboard3 {
     font-size: 20px;
-
 }
 
 #game {
     display: block;
     width: 100%;
-    height: 820px;
+    height: 850px;
     background-image: url('../image/pexels-heather-rosario-1293045183-24363595.jpg');
     background-size: cover;
     background-position: center;
-    /* overflow: hidden; */
 }
 
 #gameHeader {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     padding: 0.5rem;
     font-size: 25px;
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+
+#player {
+    display: none;
+    font-size: 22px;
 }
 
 .disabled {
@@ -74,18 +79,37 @@ button {
     z-index: 1000;
 }
 
+#timer {
+    display: none;
+    margin: 1rem;
+    position: fixed;
+    z-index: 1000;
+    top: 85%;
+
+}
+
+#timer button {
+    width: 15rem;
+    height: 4rem;
+    gap: 1rem;
+    background-color: rgb(234, 15, 15);
+    border-radius: 5%;
+    border: 3px solid white;
+
+}
+
 #left-control button {
     font-size: 17px;
 }
 
 #gameBoard {
-    margin: 2rem;
-    padding-left: 8rem;
+    /* margin: 1rem; */
+    padding-left: 11rem;
 }
 
 .board {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 2fr;
     margin-left: 6rem;
 
 }
@@ -126,21 +150,20 @@ button {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    height: 50rem;
+    height: 40rem;
     width: 40rem;
     align-items: start;
     gap: 1rem;
-    column-gap: 3rem;
-    margin-left: 10rem;
+    column-gap: 3.5rem;
+    margin-left: 6rem;
 }
 
 #gameCard {
     display: none;
 }
 
-
 footer button {
-    height: 2.5rem;
+    height: 2rem;
     width: 13rem;
     border-radius: 45%;
     font-size: 18px;

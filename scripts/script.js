@@ -45,6 +45,7 @@ const game = {
           }
 
           this.startGameButt.disabled = false;
+          document.getElementById("player").style.display = "grid";
           resolve(newPlayer);
           inputBox.value = ""; // Clear input box after adding
         } else {
@@ -96,6 +97,7 @@ const game = {
         this.playerJoin.style.display = "none";
         document.getElementById("left-control").style.display = "grid";
         document.getElementById("gameCard").style.display = "grid";
+        document.getElementById("timer").style.display = "flex";
 
         this.headerGrid1.classList.remove("disabled");
         this.scoreboard1.classList.remove("disabled");
