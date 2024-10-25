@@ -1,0 +1,148 @@
+@charset "utf-8";
+
+/* Simple CSS Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+    background-color: black;
+    color: #c1aa7f;
+}
+
+header,
+footer {
+    display: flex;
+    color: #c1aa7f;
+    align-items: center;
+    justify-content: center;
+    height: 4rem;
+    width: 100%;
+}
+
+button {
+    font-size: 22px;
+    background-color: #c1aa7f;
+    color: white;
+}
+
+#grid1,
+#grid2,
+#grid3,
+#scoreboard1,
+#scoreboard2,
+#scoreboard3 {
+    font-size: 20px;
+
+}
+
+#game {
+    display: block;
+    width: 100%;
+    height: 820px;
+    background-image: url('../image/pexels-heather-rosario-1293045183-24363595.jpg');
+    background-size: cover;
+    background-position: center;
+    /* overflow: hidden; */
+}
+
+#gameHeader {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0.5rem;
+    font-size: 25px;
+}
+
+.disabled {
+    color: gray;
+    pointer-events: none;
+}
+
+#left-control {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    width: 10%;
+    height: 5rem;
+    gap: 1rem;
+    margin: 2rem;
+    position: fixed;
+    z-index: 1000;
+}
+
+#left-control button {
+    font-size: 17px;
+}
+
+#gameBoard {
+    margin: 2rem;
+    padding-left: 8rem;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    margin-left: 6rem;
+
+}
+
+#playerJoin {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    width: 35%;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    margin-top: 10%;
+    margin-left: 35%;
+}
+
+#playerJoin button {
+    height: 3.5rem;
+    width: 25rem;
+}
+
+#playerJoin input {
+    width: 100%;
+    font-size: 18px;
+    height: 3.5rem;
+    width: 25rem;
+}
+
+#resume,
+#pause,
+#left-control {
+    display: none;
+}
+
+#startGame {
+    display: block;
+}
+
+#gameCard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    height: 50rem;
+    width: 40rem;
+    align-items: start;
+    gap: 1rem;
+    column-gap: 3rem;
+    margin-left: 10rem;
+}
+
+#gameCard {
+    display: none;
+}
+
+
+footer button {
+    height: 2.5rem;
+    width: 13rem;
+    border-radius: 45%;
+    font-size: 18px;
+
+}
