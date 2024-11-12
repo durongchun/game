@@ -1,3 +1,5 @@
+"use strict";
+
 const game = {
   title: "Hitch",
   isRunning: false,
@@ -157,7 +159,47 @@ const game = {
       }
     });
   },
+
+  numberOfPairs() {},
 };
+
+// event handler to read desired number of pairs from the DOM input and call dealer
+$("#num-pairs").on("input", function () {
+  const numPairs = $(this).val();
+  console.log("numPairs: " + numPairs);
+});
+
+// variable to prevent additional clicks while we wait for cards to be turned back down
+let preventClicks = false;
+
+const possibleCards = [
+  "a",
+  "b",
+  "c",
+  "d",
+  "e",
+  "f",
+  "g",
+  "h",
+  "i",
+  "j",
+  "k",
+  "l",
+  "m",
+  "n",
+  "o",
+  "p",
+  "q",
+  "r",
+  "s",
+  "t",
+  "u",
+  "v",
+  "w",
+  "x",
+  "y",
+  "z",
+];
 
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
