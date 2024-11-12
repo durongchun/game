@@ -79,9 +79,19 @@ button {
     z-index: 1000;
 }
 
+#pairsNumber label {
+
+    color: white;
+    width: 75%;
+}
+
+#pairsNumber input {
+    width: 20%;
+}
+
 #timer {
     display: none;
-    margin: 1rem;
+    margin: 2rem;
     position: fixed;
     z-index: 1000;
     top: 85%;
@@ -89,16 +99,17 @@ button {
 }
 
 #timer button {
-    width: 15rem;
-    height: 4rem;
+    width: 12rem;
+    height: 3rem;
     gap: 1rem;
     background-color: rgb(234, 15, 15);
-    border-radius: 5%;
-    border: 3px solid white;
+    border-radius: 25%;
+    border: 1px solid black;
 
 }
 
-#left-control button {
+#left-control button,
+#pairsNumber {
     font-size: 17px;
 }
 
