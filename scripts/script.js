@@ -12,6 +12,7 @@ const game = {
   startGameButt: "",
   switchPlayerButt: "",
   scorePointButt: "",
+  resetButt: "",
   resume: "",
   pause: "",
   playerJoin: "",
@@ -69,6 +70,7 @@ const game = {
     this.scoreboard1 = document.getElementById("scoreboard1");
     this.scoreboard2 = document.getElementById("scoreboard2");
     this.scoreboard3 = document.getElementById("scoreboard3");
+    this.resetButt = document.getElementById("resetButt");
 
     this.startGameButt.disabled = true;
     this.switchPlayerButt.disabled = true;
@@ -95,6 +97,7 @@ const game = {
         this.startGameButt.style.display = "none";
         this.pause.style.display = "block";
         this.playerJoin.style.display = "none";
+        this.resetButt.style.display = "block";
         document.getElementById("left-control").style.display = "grid";
         document.getElementById("gameCard").style.display = "grid";
         document.getElementById("timer").style.display = "flex";

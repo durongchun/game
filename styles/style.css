@@ -163,6 +163,7 @@ button {
 }
 
 footer button {
+    display: none;
     height: 2rem;
     width: 13rem;
     border-radius: 45%;
