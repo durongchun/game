@@ -164,42 +164,121 @@ const game = {
 };
 
 // event handler to read desired number of pairs from the DOM input and call dealer
-$("#num-pairs").on("input", function () {
-  const numPairs = $(this).val();
-  console.log("numPairs: " + numPairs);
+$(document).ready(function () {
+  const $container = $("#gameCard");
+
+  // Function to generate image pairs
+  function generateImagePairs(numPairs) {
+    $container.empty(); // Clear any existing elements
+
+    // Calculate the number of <div> elements to add based on selected pairs
+    let divCount;
+    switch (numPairs) {
+      case 4:
+        divCount = 4;
+        break;
+      case 8:
+        divCount = 8;
+        break;
+      case 12:
+        divCount = 12;
+        break;
+      case 16:
+        divCount = 16;
+        break;
+      default:
+        divCount = 0; // Default to 0 in case of an invalid input
+    }
+
+    // Append the specified number of pairs
+    for (let i = 0; i < divCount; i++) {
+      $container.append(`
+        <div>
+          <img src="./image/Resized_beautiful_fairy.png" alt="">
+        </div>
+        <div>
+          <img src="./image/Resized_beautiful_fairy.png" alt="">
+        </div>
+      `);
+    }
+  }
+
+  // Set default to 4 pairs on page load
+  generateImagePairs(4);
+
+  // Event listener for input changes
+  $("#num-pairs").on("change", function () {
+    const numPairs = parseInt($(this).val());
+    generateImagePairs(numPairs);
+  });
 });
 
-// variable to prevent additional clicks while we wait for cards to be turned back down
-let preventClicks = false;
+function shuffleCards() {
+  // variable to prevent additional clicks while we wait for cards to be turned back down
+  let preventClicks = false;
+  let images = $("#gameCard img").toArray();
+  const possibleCards = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
 
-const possibleCards = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
+  let selectedCards = [];
+  let cards = [];
+
+  let possibleCardsNumber = images.length / 2;
+
+  for (let i = 0; i < possibleCardsNumber; i++) {
+    const randomIndex = Math.floor(Math.random * possibleCards.length);
+    selectedCards.push(possibleCards[randomIndex]);
+  }
+
+  cards = [...selectedCards, ...selectedCards];
+
+  cards.sort(() => Math.random - 0.5);
+
+  const cardImageMapping = cards.map((card, index) => {
+    return {
+      card: card,
+      image: images[index],
+    };
+  });
+
+  console.log("cards" + JSON.stringify(cards));
+  console.log("cardImageMapping" + JSON.stringify(cardImageMapping));
+
+  images.forEach((element) => {
+    $(element).on("click", () => {
+      let cardInfo = cardImageMapping.find((item) => item.image === element);
+      if (cardInfo) {
+        alert(`Card Info: ${cardInfo.card}`);
+      }
+    });
+  });
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
@@ -208,6 +287,7 @@ document.addEventListener("DOMContentLoaded", () => {
     game.switchPlayer();
     const player1 = new Player();
     player1.getNumberPoint(game);
+    this.shuffleCards();
   });
 });
 
