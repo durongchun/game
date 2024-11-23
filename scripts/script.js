@@ -163,60 +163,59 @@ const game = {
   numberOfPairs() {},
 };
 
-// event handler to read desired number of pairs from the DOM input and call dealer
-$(document).ready(function () {
-  const $container = $("#gameCard");
+const $container = $("#gameCard");
 
-  // Function to generate image pairs
-  function generateImagePairs(numPairs) {
-    $container.empty(); // Clear any existing elements
+// Function to generate image pairs
+function generateImagePairs(numPairs) {
+  $container.empty(); // Clear any existing elements
 
-    // Calculate the number of <div> elements to add based on selected pairs
-    let divCount;
-    switch (numPairs) {
-      case 4:
-        divCount = 4;
-        break;
-      case 8:
-        divCount = 8;
-        break;
-      case 12:
-        divCount = 12;
-        break;
-      case 16:
-        divCount = 16;
-        break;
-      default:
-        divCount = 0; // Default to 0 in case of an invalid input
-    }
-
-    // Append the specified number of pairs
-    for (let i = 0; i < divCount; i++) {
-      $container.append(`
-        <div>
-          <img src="./image/Resized_beautiful_fairy.png" alt="">
-        </div>
-        <div>
-          <img src="./image/Resized_beautiful_fairy.png" alt="">
-        </div>
-      `);
-    }
+  // Calculate the number of <div> elements to add based on selected pairs
+  let divCount;
+  switch (numPairs) {
+    case 4:
+      divCount = 4;
+      break;
+    case 8:
+      divCount = 8;
+      break;
+    case 12:
+      divCount = 12;
+      break;
+    case 16:
+      divCount = 16;
+      break;
+    default:
+      divCount = 0; // Default to 0 in case of an invalid input
   }
 
-  // Set default to 4 pairs on page load
-  generateImagePairs(4);
+  // Append the specified number of pairs
+  for (let i = 0; i < divCount; i++) {
+    $container.append(`
+        <div class="spin">
+          <img src="./image/Resized_beautiful_fairy.png" alt="">
+          <div class="card-face-down d-none"></div>
 
-  // Event listener for input changes
-  $("#num-pairs").on("change", function () {
-    const numPairs = parseInt($(this).val());
-    generateImagePairs(numPairs);
-  });
-});
+        </div>
+        <div class="spin">
+          <img src="./image/Resized_beautiful_fairy.png" alt="">
+          <div class="card-face-down d-none"></div>
+        </div>
+      `);
+  }
+}
+
+// Set default to 4 pairs on page load
+generateImagePairs(16);
 
 function shuffleCards() {
   // variable to prevent additional clicks while we wait for cards to be turned back down
   let preventClicks = false;
   let images = $("#gameCard img").toArray();
+  let cardFaceDown = $(".card-face-down").toArray();
+  let spin = $(".spin").toArray();
+
+  console.log("images: " + images.length);
+
   const possibleCards = [
     "A",
     "B",
@@ -270,20 +269,33 @@ function shuffleCards() {
   console.log("cards" + JSON.stringify(cards));
   console.log("cardImageMapping" + JSON.stringify(cardImageMapping));
 
-  images.forEach((element) => {
-    $(element).on("click", () => {
-      let cardInfo = cardImageMapping.find((item) => item.image === element);
+  for (let i = 0; i < images.length; i++) {
+    $(images[i]).on("click", () => {
+      let cardInfo = cardImageMapping.find((item) => item.image === images[i]);
       if (cardInfo) {
-        alert(`Card Info: ${cardInfo.card}`);
+        // Select a random card from the array
+        const randomCard =
+          possibleCards[Math.floor(Math.random() * possibleCards.length)];
+        cardFaceDown[i].textContent = randomCard;
+        images[i].classList.add("d-none");
+        cardFaceDown[i].classList.remove("d-none"); // don't display the image
+        spin[i].style.animation = "spin 0.6s linear 1 forwards";
+        // Add the random card as a text overlay or log it for debugging
+        console.log(`Assigned card: ${randomCard}`);
       }
     });
-  });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
     game.startGame(); // Start the game after a player is added
+    // Event listener for input changes
+    $("#num-pairs").on("change", function () {
+      const numPairs = parseInt($(this).val());
+      generateImagePairs(numPairs);
+    });
     game.switchPlayer();
     const player1 = new Player();
     player1.getNumberPoint(game);

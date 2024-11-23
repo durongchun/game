@@ -183,6 +183,33 @@ button {
     display: none;
 }
 
+.card-face-down {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 187px;
+    width: 122px;
+    font-size: 8rem;
+    color: black;
+    background-color: #c1aa7f
+}
+
+
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+        /* Start position */
+    }
+
+    100% {
+        transform: rotate(360deg);
+        /* End position */
+    }
+}
+
+
 footer button {
     display: none;
     height: 2rem;
