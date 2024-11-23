@@ -205,7 +205,7 @@ function generateImagePairs(numPairs) {
 }
 
 // Set default to 4 pairs on page load
-generateImagePairs(16);
+// generateImagePairs(4);
 
 function shuffleCards() {
   // variable to prevent additional clicks while we wait for cards to be turned back down
@@ -247,17 +247,20 @@ function shuffleCards() {
 
   let selectedCards = [];
   let cards = [];
+  let clickCards = [];
 
   let possibleCardsNumber = images.length / 2;
 
   for (let i = 0; i < possibleCardsNumber; i++) {
-    const randomIndex = Math.floor(Math.random * possibleCards.length);
+    const randomIndex = Math.floor(Math.random() * possibleCards.length);
     selectedCards.push(possibleCards[randomIndex]);
   }
 
   cards = [...selectedCards, ...selectedCards];
 
-  cards.sort(() => Math.random - 0.5);
+  cards.sort(() => Math.random() - 0.5);
+
+  console.log("cards:" + JSON.stringify(cards));
 
   const cardImageMapping = cards.map((card, index) => {
     return {
@@ -266,7 +269,6 @@ function shuffleCards() {
     };
   });
 
-  console.log("cards" + JSON.stringify(cards));
   console.log("cardImageMapping" + JSON.stringify(cardImageMapping));
 
   for (let i = 0; i < images.length; i++) {
@@ -274,14 +276,19 @@ function shuffleCards() {
       let cardInfo = cardImageMapping.find((item) => item.image === images[i]);
       if (cardInfo) {
         // Select a random card from the array
-        const randomCard =
-          possibleCards[Math.floor(Math.random() * possibleCards.length)];
+        const randomCard = cards[Math.floor(Math.random() * cards.length)];
         cardFaceDown[i].textContent = randomCard;
         images[i].classList.add("d-none");
         cardFaceDown[i].classList.remove("d-none"); // don't display the image
         spin[i].style.animation = "spin 0.6s linear 1 forwards";
         // Add the random card as a text overlay or log it for debugging
         console.log(`Assigned card: ${randomCard}`);
+
+        if (clickCards.includes(randomCard)) {
+          const player1 = new Player();
+          player1.getNumberPoint(game);
+        }
+        clickCards.push(randomCard);
       }
     });
   }
@@ -290,16 +297,19 @@ function shuffleCards() {
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
-    game.startGame(); // Start the game after a player is added
     // Event listener for input changes
     $("#num-pairs").on("change", function () {
       const numPairs = parseInt($(this).val());
-      generateImagePairs(numPairs);
+      generateImagePairs(numPairs); // Populate the DOM
+      shuffleCards(); // Shuffle cards after DOM is updated
     });
+
+    // Initialize default pairs and shuffle
+    generateImagePairs(4);
+    shuffleCards();
+
+    game.startGame();
     game.switchPlayer();
-    const player1 = new Player();
-    player1.getNumberPoint(game);
-    this.shuffleCards();
   });
 });
 
@@ -318,21 +328,21 @@ class Player {
   }
 
   getNumberPoint(game) {
-    game.scorePointButt.addEventListener("click", () => {
-      const activePlayer = game.players[game.activePlayerIndex];
-      if (activePlayer) {
-        activePlayer.incrementScore();
-        const score = activePlayer.getScore();
-        if (game.activePlayerIndex === 0) {
-          game.scoreboard1.textContent = score;
-        } else if (game.activePlayerIndex === 1) {
-          game.scoreboard2.textContent = score;
-        } else if (game.activePlayerIndex === 2) {
-          game.scoreboard3.textContent = score;
-        }
-      } else {
-        console.log("No active game player");
+    // game.scorePointButt.addEventListener("click", () => {
+    const activePlayer = game.players[game.activePlayerIndex];
+    if (activePlayer) {
+      activePlayer.incrementScore();
+      const score = activePlayer.getScore();
+      if (game.activePlayerIndex === 0) {
+        game.scoreboard1.textContent = score;
+      } else if (game.activePlayerIndex === 1) {
+        game.scoreboard2.textContent = score;
+      } else if (game.activePlayerIndex === 2) {
+        game.scoreboard3.textContent = score;
       }
-    });
+    } else {
+      console.log("No active game player");
+    }
+    // });
   }
 }
