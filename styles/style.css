@@ -79,14 +79,21 @@ button {
     z-index: 1000;
 }
 
-#pairsNumber label {
+#pairsNumber {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
     color: white;
-    width: 74%;
-    height: 2rem;
+    font-size: 22px;
+    border: 1px solid #c1aa7f;
+
+
 }
 
-#pairsNumber input {
-    width: 21%;
+#num-pairs {
+    width: 4rem;
+    height: auto;
 }
 
 #timer {
@@ -108,8 +115,7 @@ button {
 
 }
 
-#left-control button,
-#pairsNumber {
+#left-control button {
     font-size: 17px;
 }
 
@@ -127,7 +133,7 @@ button {
 
 #playerJoin {
     display: grid;
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
     width: 35%;
     gap: 1rem;
     margin-bottom: 2rem;
@@ -135,9 +141,11 @@ button {
     margin-left: 35%;
 }
 
-#playerJoin button {
+#playerJoin button,
+#pairsNumber {
     height: 3.5rem;
     width: 25rem;
+
 }
 
 #playerJoin input {
@@ -145,6 +153,8 @@ button {
     font-size: 18px;
     height: 3.5rem;
     width: 25rem;
+    border: 1px solid #c1aa7f;
+
 }
 
 #resume,
