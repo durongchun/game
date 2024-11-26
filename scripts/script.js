@@ -249,17 +249,22 @@ function shuffleCards() {
   let clickCards = [];
 
   let possibleCardsNumber = images.length / 2;
+  console.log("possibleCardsNumber: " + possibleCardsNumber);
 
   for (let i = 0; i < possibleCardsNumber; i++) {
     const randomIndex = Math.floor(Math.random() * possibleCards.length);
     selectedCards.push(possibleCards[randomIndex]);
   }
 
+  console.log("selectedCards:" + JSON.stringify(selectedCards));
+
   cards = [...selectedCards, ...selectedCards];
+
+  console.log("cards befor sort:" + JSON.stringify(cards));
 
   cards.sort(() => Math.random() - 0.5);
 
-  console.log("cards:" + JSON.stringify(cards));
+  console.log("cards after sort: " + JSON.stringify(cards));
 
   const cardImageMapping = cards.map((card, index) => {
     return {
@@ -271,23 +276,33 @@ function shuffleCards() {
   console.log("cardImageMapping" + JSON.stringify(cardImageMapping));
 
   for (let i = 0; i < images.length; i++) {
+    cardFaceDown[i].textContent = cardImageMapping[i].card;
+    console.log(`Assigned card: ${cardFaceDown[i].textContent}`);
+  }
+
+  for (let i = 0; i < images.length; i++) {
     $(images[i]).on("click", () => {
       let cardInfo = cardImageMapping.find((item) => item.image === images[i]);
       if (cardInfo) {
-        // Select a random card from the array
-        const randomCard = cards[Math.floor(Math.random() * cards.length)];
-        cardFaceDown[i].textContent = randomCard;
         images[i].classList.add("hidden");
         cardFaceDown[i].classList.remove("d-none"); // don't display the image
         spin[i].style.animation = "spin 0.1s linear 1 forwards";
-        // Add the random card as a text overlay or log it for debugging
-        console.log(`Assigned card: ${randomCard}`);
 
-        if (clickCards.includes(randomCard)) {
-          const player1 = new Player();
-          player1.getNumberPoint(game);
+        if (i > 0) {
+          if (clickCards.includes(cardFaceDown[i].textContent)) {
+            const player1 = new Player();
+            player1.getNumberPoint(game);
+            clickCards = [];
+          } else {
+            images[i - 1].classList.remove("hidden");
+            cardFaceDown[i - 1].classList.add("d-none");
+            clickCards.splice[(i - 1, 1)];
+            clickCards.push(cardFaceDown[i].textContent);
+          }
+        } else {
+          clickCards.push(cardFaceDown[i].textContent);
         }
-        clickCards.push(randomCard);
+        console.log("clickcards: " + JSON.stringify(clickCards));
       }
     });
   }
@@ -327,7 +342,6 @@ class Player {
   }
 
   getNumberPoint(game) {
-    // game.scorePointButt.addEventListener("click", () => {
     const activePlayer = game.players[game.activePlayerIndex];
     if (activePlayer) {
       activePlayer.incrementScore();
@@ -342,6 +356,5 @@ class Player {
     } else {
       console.log("No active game player");
     }
-    // });
   }
 }
