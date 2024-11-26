@@ -192,12 +192,11 @@ function generateImagePairs(numPairs) {
   for (let i = 0; i < divCount; i++) {
     $container.append(`
         <div class="spin">
-          <img src="./image/Resized_beautiful_fairy.png" alt="">
+          <img src="./image/Resized_beautiful_fairy.png">
           <div class="card-face-down d-none"></div>
-
         </div>
         <div class="spin">
-          <img src="./image/Resized_beautiful_fairy.png" alt="">
+          <img src="./image/Resized_beautiful_fairy.png">
           <div class="card-face-down d-none"></div>
         </div>
       `);
@@ -278,9 +277,9 @@ function shuffleCards() {
         // Select a random card from the array
         const randomCard = cards[Math.floor(Math.random() * cards.length)];
         cardFaceDown[i].textContent = randomCard;
-        images[i].classList.add("d-none");
+        images[i].classList.add("hidden");
         cardFaceDown[i].classList.remove("d-none"); // don't display the image
-        spin[i].style.animation = "spin 0.6s linear 1 forwards";
+        spin[i].style.animation = "spin 0.1s linear 1 forwards";
         // Add the random card as a text overlay or log it for debugging
         console.log(`Assigned card: ${randomCard}`);
 

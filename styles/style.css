@@ -183,19 +183,36 @@ button {
     display: none;
 }
 
+.hidden {
+    visibility: hidden;
+    /* Hides the element but keeps its space in the layout */
+}
+
 .card-face-down {
     position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 187px;
-    width: 122px;
-    font-size: 8rem;
+    height: 179px;
+    width: 102px;
+    font-size: 7rem;
     color: black;
     background-color: #c1aa7f
 }
 
+.spin {
+    display: flex;
+}
 
+#gameCard img,
+#gameCard div {
+    transition: transform 0.3s ease;
+}
+
+#gameCard img:hover,
+#gameCard div:hover {
+    transform: scale(1.2);
+}
 
 @keyframes spin {
     0% {
@@ -208,6 +225,7 @@ button {
         /* End position */
     }
 }
+
 
 
 footer button {
