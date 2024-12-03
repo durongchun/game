@@ -1,3 +1,5 @@
+"use strict";
+
 const game = {
   title: "Hitch",
   isRunning: false,
@@ -157,15 +159,171 @@ const game = {
       }
     });
   },
+
+  numberOfPairs() {},
 };
+
+const $container = $("#gameCard");
+
+// Function to generate image pairs
+function generateImagePairs(numPairs) {
+  $container.empty(); // Clear any existing elements
+
+  // Calculate the number of <div> elements to add based on selected pairs
+  let divCount;
+  switch (numPairs) {
+    case 4:
+      divCount = 4;
+      break;
+    case 8:
+      divCount = 8;
+      break;
+    case 12:
+      divCount = 12;
+      break;
+    case 16:
+      divCount = 16;
+      break;
+    default:
+      divCount = 0; // Default to 0 in case of an invalid input
+  }
+
+  // Append the specified number of pairs
+  for (let i = 0; i < divCount; i++) {
+    $container.append(`
+        <div class="spin">
+          <img src="./image/Resized_beautiful_fairy.png">
+          <div class="card-face-down d-none"></div>
+        </div>
+        <div class="spin">
+          <img src="./image/Resized_beautiful_fairy.png">
+          <div class="card-face-down d-none"></div>
+        </div>
+      `);
+  }
+}
+
+// Set default to 4 pairs on page load
+// generateImagePairs(4);
+
+function shuffleCards() {
+  // variable to prevent additional clicks while we wait for cards to be turned back down
+  let preventClicks = false;
+  let images = $("#gameCard img").toArray();
+  let cardFaceDown = $(".card-face-down").toArray();
+  let spin = $(".spin").toArray();
+
+  console.log("images: " + images.length);
+
+  const possibleCards = [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+  ];
+
+  let selectedCards = [];
+  let cards = [];
+  let clickCards = [];
+
+  let possibleCardsNumber = images.length / 2;
+  console.log("possibleCardsNumber: " + possibleCardsNumber);
+
+  for (let i = 0; i < possibleCardsNumber; i++) {
+    const randomIndex = Math.floor(Math.random() * possibleCards.length);
+    selectedCards.push(possibleCards[randomIndex]);
+  }
+
+  console.log("selectedCards:" + JSON.stringify(selectedCards));
+
+  cards = [...selectedCards, ...selectedCards];
+
+  console.log("cards befor sort:" + JSON.stringify(cards));
+
+  cards.sort(() => Math.random() - 0.5);
+
+  console.log("cards after sort: " + JSON.stringify(cards));
+
+  const cardImageMapping = cards.map((card, index) => {
+    return {
+      card: card,
+      image: images[index],
+    };
+  });
+
+  console.log("cardImageMapping" + JSON.stringify(cardImageMapping));
+
+  for (let i = 0; i < images.length; i++) {
+    cardFaceDown[i].textContent = cardImageMapping[i].card;
+    console.log(`Assigned card: ${cardFaceDown[i].textContent}`);
+  }
+
+  for (let i = 0; i < images.length; i++) {
+    $(images[i]).on("click", () => {
+      let cardInfo = cardImageMapping.find((item) => item.image === images[i]);
+      if (cardInfo) {
+        images[i].classList.add("hidden");
+        cardFaceDown[i].classList.remove("d-none"); // don't display the image
+        spin[i].style.animation = "spin 0.1s linear 1 forwards";
+
+        if (i > 0) {
+          if (clickCards.includes(cardFaceDown[i].textContent)) {
+            const player1 = new Player();
+            player1.getNumberPoint(game);
+            clickCards = [];
+          } else {
+            images[i - 1].classList.remove("hidden");
+            cardFaceDown[i - 1].classList.add("d-none");
+            clickCards.splice[(i - 1, 1)];
+            clickCards.push(cardFaceDown[i].textContent);
+          }
+        } else {
+          clickCards.push(cardFaceDown[i].textContent);
+        }
+        console.log("clickcards: " + JSON.stringify(clickCards));
+      }
+    });
+  }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
-    game.startGame(); // Start the game after a player is added
+    // Event listener for input changes
+    $("#num-pairs").on("change", function () {
+      const numPairs = parseInt($(this).val());
+      generateImagePairs(numPairs); // Populate the DOM
+      shuffleCards(); // Shuffle cards after DOM is updated
+    });
+
+    // Initialize default pairs and shuffle
+    generateImagePairs(4);
+    shuffleCards();
+
+    game.startGame();
     game.switchPlayer();
-    const player1 = new Player();
-    player1.getNumberPoint(game);
   });
 });
 
@@ -184,21 +342,19 @@ class Player {
   }
 
   getNumberPoint(game) {
-    game.scorePointButt.addEventListener("click", () => {
-      const activePlayer = game.players[game.activePlayerIndex];
-      if (activePlayer) {
-        activePlayer.incrementScore();
-        const score = activePlayer.getScore();
-        if (game.activePlayerIndex === 0) {
-          game.scoreboard1.textContent = score;
-        } else if (game.activePlayerIndex === 1) {
-          game.scoreboard2.textContent = score;
-        } else if (game.activePlayerIndex === 2) {
-          game.scoreboard3.textContent = score;
-        }
-      } else {
-        console.log("No active game player");
+    const activePlayer = game.players[game.activePlayerIndex];
+    if (activePlayer) {
+      activePlayer.incrementScore();
+      const score = activePlayer.getScore();
+      if (game.activePlayerIndex === 0) {
+        game.scoreboard1.textContent = score;
+      } else if (game.activePlayerIndex === 1) {
+        game.scoreboard2.textContent = score;
+      } else if (game.activePlayerIndex === 2) {
+        game.scoreboard3.textContent = score;
       }
-    });
+    } else {
+      console.log("No active game player");
+    }
   }
 }
