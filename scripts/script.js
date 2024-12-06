@@ -128,8 +128,21 @@ const game = {
     });
   },
 
+  resetImages() {
+    const images = $("#gameCard img");
+    const cardFaceDown = $(".card-face-down");
+
+    images.each((index, image) => {
+      if ($(image).hasClass("hidden")) {
+        $(image).removeClass("hidden");
+        $(cardFaceDown[index]).addClass("d-none");
+      }
+    });
+  },
+
   switchPlayer() {
     this.switchPlayerButt.addEventListener("click", () => {
+      this.resetImages();
       //next player
       this.activePlayerIndex =
         (this.activePlayerIndex + 1) % this.players.length;
@@ -342,8 +355,7 @@ function handleCardClick(image, cardFace) {
     if (first === second) {
       console.log("Match found!");
       const activePlayer = game.players[game.activePlayerIndex];
-      const player1 = new Player();
-      player1.getNumberPoint(game);
+      activePlayer.getNumberPoint(game);
       preventClicks = false;
       const matchedCards = $(".card-face-down").filter(
         (_, el) => el.textContent === first
@@ -363,6 +375,15 @@ function handleCardClick(image, cardFace) {
     clickCards = [];
   }
 }
+
+// function resetImages() {
+//   const images = $("#gameCard img").toArray();
+//   const cardFaceDown = $(".card-face-down").toArray();
+//   for (let i = 0; i < images.length; i++) {
+//     images[i].removeClass("hidden");
+//     cardFaceDown[i].addClass("d-none");
+//   }
+// }
 
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
