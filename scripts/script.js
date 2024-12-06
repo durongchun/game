@@ -206,105 +206,161 @@ function generateImagePairs(numPairs) {
 // Set default to 4 pairs on page load
 // generateImagePairs(4);
 
+// function shuffleCards() {
+//   // variable to prevent additional clicks while we wait for cards to be turned back down
+//   let preventClicks = false;
+//   let images = $("#gameCard img").toArray();
+//   let cardFaceDown = $(".card-face-down").toArray();
+//   let spin = $(".spin").toArray();
+
+//   console.log("images: " + images.length);
+
+//   const possibleCards = [
+//     "A",
+//     "B",
+//     "C",
+//     "D",
+//     "E",
+//     "F",
+//     "G",
+//     "H",
+//     "I",
+//     "J",
+//     "K",
+//     "L",
+//     "M",
+//     "N",
+//     "O",
+//     "P",
+//     "Q",
+//     "R",
+//     "S",
+//     "T",
+//     "U",
+//     "V",
+//     "W",
+//     "X",
+//     "Y",
+//     "Z",
+//   ];
+
+//   let selectedCards = [];
+//   let cards = [];
+//   let clickCards = [];
+
+//   let possibleCardsNumber = images.length / 2;
+//   console.log("possibleCardsNumber: " + possibleCardsNumber);
+
+//   for (let i = 0; i < possibleCardsNumber; i++) {
+//     const randomIndex = Math.floor(Math.random() * possibleCards.length);
+//     selectedCards.push(possibleCards[randomIndex]);
+//   }
+
+//   console.log("selectedCards:" + JSON.stringify(selectedCards));
+
+//   cards = [...selectedCards, ...selectedCards];
+
+//   console.log("cards befor sort:" + JSON.stringify(cards));
+
+//   cards.sort(() => Math.random() - 0.5);
+
+//   console.log("cards after sort: " + JSON.stringify(cards));
+
+//   const cardImageMapping = cards.map((card, index) => {
+//     return {
+//       card: card,
+//       image: images[index],
+//     };
+//   });
+
+//   console.log("cardImageMapping" + JSON.stringify(cardImageMapping));
+
+//   for (let i = 0; i < images.length; i++) {
+//     cardFaceDown[i].textContent = cardImageMapping[i].card;
+//     console.log(`Assigned card: ${cardFaceDown[i].textContent}`);
+//   }
+
+//   for (let i = 0; i < images.length; i++) {
+//     $(images[i]).on("click", () => {
+//       let cardInfo = cardImageMapping.find((item) => item.image === images[i]);
+//       if (cardInfo) {
+//         images[i].classList.add("hidden");
+//         cardFaceDown[i].classList.remove("d-none"); // don't display the image
+//         spin[i].style.animation = "spin 0.1s linear 1 forwards";
+
+//         if (i > 0) {
+//           if (clickCards.includes(cardFaceDown[i].textContent)) {
+//             const player1 = new Player();
+//             player1.getNumberPoint(game);
+//             clickCards = [];
+//           } else {
+//             images[i - 1].classList.remove("hidden");
+//             cardFaceDown[i - 1].classList.add("d-none");
+//             clickCards.splice[(i - 1, 1)];
+//             clickCards.push(cardFaceDown[i].textContent);
+//           }
+//         } else {
+//           clickCards.push(cardFaceDown[i].textContent);
+//         }
+//         console.log("clickcards: " + JSON.stringify(clickCards));
+//       }
+//     });
+//   }
+// }
+
 function shuffleCards() {
-  // variable to prevent additional clicks while we wait for cards to be turned back down
-  let preventClicks = false;
-  let images = $("#gameCard img").toArray();
-  let cardFaceDown = $(".card-face-down").toArray();
-  let spin = $(".spin").toArray();
+  const images = $("#gameCard img").toArray();
+  const cardFaceDown = $(".card-face-down").toArray();
+  const possibleCards = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
-  console.log("images: " + images.length);
+  const selectedCards = possibleCards.slice(0, images.length / 2);
+  const cards = [...selectedCards, ...selectedCards].sort(
+    () => Math.random() - 0.5
+  );
 
-  const possibleCards = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-  ];
-
-  let selectedCards = [];
-  let cards = [];
-  let clickCards = [];
-
-  let possibleCardsNumber = images.length / 2;
-  console.log("possibleCardsNumber: " + possibleCardsNumber);
-
-  for (let i = 0; i < possibleCardsNumber; i++) {
-    const randomIndex = Math.floor(Math.random() * possibleCards.length);
-    selectedCards.push(possibleCards[randomIndex]);
-  }
-
-  console.log("selectedCards:" + JSON.stringify(selectedCards));
-
-  cards = [...selectedCards, ...selectedCards];
-
-  console.log("cards befor sort:" + JSON.stringify(cards));
-
-  cards.sort(() => Math.random() - 0.5);
-
-  console.log("cards after sort: " + JSON.stringify(cards));
-
-  const cardImageMapping = cards.map((card, index) => {
-    return {
-      card: card,
-      image: images[index],
-    };
+  images.forEach((image, index) => {
+    cardFaceDown[index].textContent = cards[index];
+    $(image).on("click", () => handleCardClick(image, cardFaceDown[index]));
   });
+}
 
-  console.log("cardImageMapping" + JSON.stringify(cardImageMapping));
+let clickCards = [];
+let preventClicks = false;
 
-  for (let i = 0; i < images.length; i++) {
-    cardFaceDown[i].textContent = cardImageMapping[i].card;
-    console.log(`Assigned card: ${cardFaceDown[i].textContent}`);
-  }
+function handleCardClick(image, cardFace) {
+  if (preventClicks || !game.isRunning) return;
 
-  for (let i = 0; i < images.length; i++) {
-    $(images[i]).on("click", () => {
-      let cardInfo = cardImageMapping.find((item) => item.image === images[i]);
-      if (cardInfo) {
-        images[i].classList.add("hidden");
-        cardFaceDown[i].classList.remove("d-none"); // don't display the image
-        spin[i].style.animation = "spin 0.1s linear 1 forwards";
+  $(image).addClass("hidden");
+  $(cardFace).removeClass("d-none");
 
-        if (i > 0) {
-          if (clickCards.includes(cardFaceDown[i].textContent)) {
-            const player1 = new Player();
-            player1.getNumberPoint(game);
-            clickCards = [];
-          } else {
-            images[i - 1].classList.remove("hidden");
-            cardFaceDown[i - 1].classList.add("d-none");
-            clickCards.splice[(i - 1, 1)];
-            clickCards.push(cardFaceDown[i].textContent);
-          }
-        } else {
-          clickCards.push(cardFaceDown[i].textContent);
-        }
-        console.log("clickcards: " + JSON.stringify(clickCards));
-      }
-    });
+  clickCards.push(cardFace.textContent);
+
+  if (clickCards.length === 2) {
+    preventClicks = true;
+    const [first, second] = clickCards;
+
+    if (first === second) {
+      console.log("Match found!");
+      const activePlayer = game.players[game.activePlayerIndex];
+      const player1 = new Player();
+      player1.getNumberPoint(game);
+      preventClicks = false;
+      const matchedCards = $(".card-face-down").filter(
+        (_, el) => el.textContent === first
+      );
+      matchedCards.addClass("matched");
+      $(".hidden")
+        .filter((_, el) => $(el).next(".card-face-down").text() === first)
+        .addClass("matched");
+    } else {
+      setTimeout(() => {
+        $(".hidden:not(.matched)").removeClass("hidden");
+        $(".card-face-down:not(.matched)").addClass("d-none");
+        preventClicks = false;
+      }, 1000);
+    }
+
+    clickCards = [];
   }
 }
 
