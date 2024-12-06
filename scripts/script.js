@@ -380,6 +380,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     game.startGame();
     game.switchPlayer();
+    $("#resetButt").on("click", function () {
+      location.reload();
+    });
   });
 });
 
