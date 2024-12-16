@@ -182,6 +182,10 @@ const game = {
 
 const $container = $("#gameCard");
 
+function setClock(time) {
+  document.querySelector("#clock").textContent = time;
+}
+
 // Function to generate image pairs
 function generateImagePairs(numPairs) {
   $container.empty(); // Clear any existing elements
@@ -191,15 +195,19 @@ function generateImagePairs(numPairs) {
   switch (numPairs) {
     case 4:
       divCount = 4;
+      setClock("00:30:00");
       break;
     case 8:
       divCount = 8;
+      setClock("01:00:00");
       break;
     case 12:
       divCount = 12;
+      setClock("01:30:00");
       break;
     case 16:
       divCount = 16;
+      setClock("02:00:00");
       break;
     default:
       divCount = 0; // Default to 0 in case of an invalid input
