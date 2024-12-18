@@ -24,6 +24,7 @@ const game = {
   numPairs: 4,
   remainingTime: 60,
   switchPlayer: false,
+  countdownInterval: 0,
 
   addPlayer() {
     return new Promise((resolve) => {
@@ -150,6 +151,8 @@ const game = {
       this.resetImages();
       generateImagePairs(game.numPairs);
       shuffleCards();
+      clearInterval(game.countdownInterval);
+      startCountdown(game.remainingTime);
       //next player
       this.activePlayerIndex =
         (this.activePlayerIndex + 1) % this.players.length;
@@ -305,7 +308,7 @@ function formatTime(seconds) {
 
 // Function to start the countdown
 function startCountdown(seconds) {
-  let countdownInterval; // Variable to store the countdown interval
+  // let countdownInterval; // Variable to store the countdown interval
   let clockRemainingTime = seconds;
   const clockElement = document.querySelector("#clock");
 
@@ -318,13 +321,13 @@ function startCountdown(seconds) {
   clockElement.textContent = formatTime(clockRemainingTime);
 
   // Update the clock every second
-  countdownInterval = setInterval(() => {
+  game.countdownInterval = setInterval(() => {
     clockRemainingTime--;
     clockElement.textContent = formatTime(clockRemainingTime);
 
     // Stop the countdown when time runs out
     if (clockRemainingTime <= 0) {
-      clearInterval(countdownInterval);
+      clearInterval(game.countdownInterval);
       alert("Time's up!");
     }
   }, 1000);
