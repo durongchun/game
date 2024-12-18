@@ -22,6 +22,7 @@ const game = {
   headerGrid2: "",
   headerGrid3: "",
   numPairs: 4,
+  remainingTime: 60,
 
   addPlayer() {
     return new Promise((resolve) => {
@@ -107,6 +108,8 @@ const game = {
 
         this.headerGrid1.classList.remove("disabled");
         this.scoreboard1.classList.remove("disabled");
+        console.log("game.remainingTime: ", game.remainingTime);
+        startCountdown(game.remainingTime);
       }
     });
 
@@ -183,7 +186,7 @@ const game = {
 const $container = $("#gameCard");
 
 function setClock(time) {
-  document.querySelector("#clock").textContent = time;
+  document.querySelector("#clock").textContent = String(time);
 }
 
 // Function to generate image pairs
@@ -196,18 +199,22 @@ function generateImagePairs(numPairs) {
     case 4:
       divCount = 4;
       setClock("00:30:00");
+      game.remainingTime = 30;
       break;
     case 8:
       divCount = 8;
       setClock("01:00:00");
+      game.remainingTime = 60;
       break;
     case 12:
       divCount = 12;
       setClock("01:30:00");
+      game.remainingTime = 90;
       break;
     case 16:
       divCount = 16;
       setClock("02:00:00");
+      game.remainingTime = 120;
       break;
     default:
       divCount = 0; // Default to 0 in case of an invalid input
@@ -247,10 +254,10 @@ function shuffleCards() {
   });
 }
 
-let clickCards = [];
-let preventClicks = false;
-
 function handleCardClick(image, cardFace) {
+  let clickCards = [];
+  let preventClicks = false;
+
   if (preventClicks || !game.isRunning) return;
 
   $(image).addClass("hidden");
@@ -285,6 +292,42 @@ function handleCardClick(image, cardFace) {
 
     clickCards = [];
   }
+}
+
+// Function to format time as MM:SS
+function formatTime(seconds) {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(
+    remainingSeconds
+  ).padStart(2, "0")}`;
+}
+
+// Function to start the countdown
+function startCountdown(seconds) {
+  let countdownInterval; // Variable to store the countdown interval
+  let clockRemainingTime = seconds;
+  const clockElement = document.querySelector("#clock");
+
+  if (!clockElement) {
+    console.error("Timer element not found!");
+    return;
+  }
+
+  // Set the initial value on the clock
+  clockElement.textContent = formatTime(clockRemainingTime);
+
+  // Update the clock every second
+  countdownInterval = setInterval(() => {
+    clockRemainingTime--;
+    clockElement.textContent = formatTime(clockRemainingTime);
+
+    // Stop the countdown when time runs out
+    if (clockRemainingTime <= 0) {
+      clearInterval(countdownInterval);
+      alert("Time's up!");
+    }
+  }, 1000);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
