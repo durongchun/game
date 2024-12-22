@@ -157,28 +157,8 @@ const game = {
       shuffleCards();
       clearInterval(game.countdownInterval);
       console.log("game.spentTime", game.spentTime);
+      scoreBoard();
 
-      // Add the spent time for the current player to their total
-      const totalSpent = game.spentTime;
-      if (this.activePlayerIndex === 0) {
-        game.player1TotalSpent += totalSpent;
-        game.scoreboard1.textContent = `Score: ${game.players[0].getScore()}, Time: ${
-          game.player1TotalSpent
-        }s`;
-        console.log("Player 1 Total Spent Time:", game.player1TotalSpent);
-      } else if (this.activePlayerIndex === 1) {
-        game.player2TotalSpent += totalSpent;
-        game.scoreboard2.textContent = `Score: ${game.players[1].getScore()}, Time: ${
-          game.player2TotalSpent
-        }s`;
-        console.log("Player 2 Total Spent Time:", game.player2TotalSpent);
-      } else if (this.activePlayerIndex === 2) {
-        game.player3TotalSpent += totalSpent;
-        game.scoreboard3.textContent = `Score: ${game.players[2].getScore()}, Time: ${
-          game.player3TotalSpent
-        }s`;
-        console.log("Player 3 Total Spent Time:", game.player3TotalSpent);
-      }
       startCountdown(game.remainingTime);
 
       //next player
@@ -285,6 +265,31 @@ function shuffleCards() {
   });
 }
 
+function scoreBoard() {
+  // Add the spent time for the current player to their total
+  console.log("xcccccc");
+  const totalSpent = game.spentTime;
+  if (game.activePlayerIndex === 0) {
+    game.player1TotalSpent += totalSpent;
+    game.scoreboard1.textContent = `Score: ${game.players[0].getScore()}, Time: ${
+      game.player1TotalSpent
+    }s`;
+    console.log("Player 1 Total Spent Time:", game.player1TotalSpent);
+  } else if (game.activePlayerIndex === 1) {
+    game.player2TotalSpent += totalSpent;
+    game.scoreboard2.textContent = `Score: ${game.players[1].getScore()}, Time: ${
+      game.player2TotalSpent
+    }s`;
+    console.log("Player 2 Total Spent Time:", game.player2TotalSpent);
+  } else if (game.activePlayerIndex === 2) {
+    game.player3TotalSpent += totalSpent;
+    game.scoreboard3.textContent = `Score: ${game.players[2].getScore()}, Time: ${
+      game.player3TotalSpent
+    }s`;
+    console.log("Player 3 Total Spent Time:", game.player3TotalSpent);
+  }
+}
+
 let clickCards = [];
 let preventClicks = false;
 let pairs = 0;
@@ -317,8 +322,10 @@ function handleCardClick(image, cardFace) {
         .addClass("matched");
 
       if (pairs === game.numPairs) {
-        alert("Congratulations! All cards are matched!");
+        showAlertModal();
+
         clearInterval(game.countdownInterval);
+        pairs = 0;
       }
     } else {
       setTimeout(() => {
@@ -329,6 +336,16 @@ function handleCardClick(image, cardFace) {
     }
 
     clickCards = [];
+  }
+}
+
+function showAlertModal() {
+  const modalElement = document.querySelector("#alertModal");
+  if (modalElement) {
+    const alertModal = new bootstrap.Modal(modalElement);
+    alertModal.show();
+  } else {
+    console.error("Modal element not found!");
   }
 }
 
