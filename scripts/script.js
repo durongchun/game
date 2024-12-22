@@ -287,6 +287,7 @@ function shuffleCards() {
 
 let clickCards = [];
 let preventClicks = false;
+let pairs = 0;
 
 function handleCardClick(image, cardFace) {
   if (preventClicks || !game.isRunning) return;
@@ -302,6 +303,7 @@ function handleCardClick(image, cardFace) {
     const [first, second] = clickCards;
 
     if (first === second) {
+      pairs++;
       console.log("Match found!");
       const activePlayer = game.players[game.activePlayerIndex];
       activePlayer.getNumberPoint(game);
@@ -313,12 +315,17 @@ function handleCardClick(image, cardFace) {
       $(".hidden")
         .filter((_, el) => $(el).next(".card-face-down").text() === first)
         .addClass("matched");
+
+      if (pairs === game.numPairs) {
+        alert("Congratulations! All cards are matched!");
+        clearInterval(game.countdownInterval);
+      }
     } else {
       setTimeout(() => {
         $(".hidden:not(.matched)").removeClass("hidden");
         $(".card-face-down:not(.matched)").addClass("d-none");
         preventClicks = false;
-      }, 1000);
+      }, 500);
     }
 
     clickCards = [];
