@@ -46,12 +46,31 @@
         <button id="left-resume">Resume Game</button>
         <button id="left-pause">Pause Game</button>
         <button id="left-switch">Switch Player</button>
-        <button id="left-score">Score Point</button>
+        <button id="left-score">Score Board</button>
         <!-- <button id="left-reset">Reset Game</button> -->
+      </div>
+      <div id="right-control" class="d-none">
+        <div>
+          <h5 class="text-center p-2">Score Board</h5>
+        </div>
+        <div class="board">
+          <div id="player1"></div>
+          <div id="score1"></div>
+        </div>
+        <div class="board">
+          <div id="player2"></div>
+          <div id="score2"></div>
+        </div>
+        <div class="board">
+          <div id="player3"></div>
+          <div id="score3"></div>
+        </div>
+        <div>
+          <h5 class="text-center p-5">Winer:</h5>
+        </div>
       </div>
       <div id="timer">
         <button>
-          Timer:
           <span id="clock">00:00:00</span>
         </button>
       </div>
@@ -89,7 +108,7 @@
       aria-hidden="true"
     >
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-success text-white">
+        <div class="modal-content text-white">
           <div class="modal-header">
             <h5 class="modal-title" id="alertModalLabel">Congratulations!</h5>
             <button
@@ -99,7 +118,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body text-center">
+          <div class="modal-body text-center bold">
             <p>All cards are matched! Well done, Player!</p>
           </div>
           <div class="modal-footer">

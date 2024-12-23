@@ -2,33 +2,40 @@
 
 /* Simple CSS Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    min-height: 100vh;
-    background-color: black;
-    color: #c1aa7f;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  background-color: black;
+  color: #c1aa7f;
+}
+
+button,
+#pairsNumber,
+input,
+#playerJoin {
+  border-radius: 10px;
 }
 
 header,
 footer {
-    display: flex;
-    color: #c1aa7f;
-    align-items: center;
-    justify-content: center;
-    /* height: 3rem; */
-    width: 100%;
+  display: flex;
+  color: #c1aa7f;
+  align-items: center;
+  justify-content: center;
+  /* height: 3rem; */
+  width: 100%;
 }
 
 button {
-    font-size: 22px;
-    background-color: #c1aa7f;
-    color: white;
+  font-size: 22px;
+  background-color: #c1aa7f;
+  color: white;
 }
 
 #grid1,
@@ -37,202 +44,234 @@ button {
 #scoreboard1,
 #scoreboard2,
 #scoreboard3 {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 #game {
-    display: block;
-    width: 100%;
-    height: 850px;
-    background-image: url('../image/pexels-heather-rosario-1293045183-24363595.jpg');
-    background-size: cover;
-    background-position: center;
+  display: block;
+  width: 100%;
+  height: 850px;
+  background-image: url("../image/pexels-heather-rosario-1293045183-24363595.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 #gameHeader {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding: 0.5rem;
-    font-size: 25px;
-    margin-left: 5rem;
-    margin-right: 5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 0.5rem;
+  font-size: 25px;
+  margin-left: 5rem;
+  margin-right: 5rem;
 }
 
 #player {
-    display: none;
-    font-size: 22px;
+  display: none;
+  font-size: 22px;
 }
 
 .disabled {
-    color: gray;
-    pointer-events: none;
+  color: gray;
+  pointer-events: none;
 }
 
 #left-control {
-    display: grid;
-    grid-template-rows: repeat(3, 1fr);
-    width: 10%;
-    height: 5rem;
-    gap: 1rem;
-    margin: 2rem;
-    position: fixed;
-    z-index: 1000;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  width: 10%;
+  height: 5rem;
+  gap: 1rem;
+  margin: 2rem;
+  position: fixed;
+  z-index: 1000;
+}
+
+#right-control {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 1000;
+  left: 85%;
+  top: 15%;
+  border-radius: 5%;
+  height: 20rem;
+  color: white;
+  border: 1px solid #c1aa7f;
 }
 
 #pairsNumber {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: center;
-    color: white;
-    font-size: 22px;
-    border: 1px solid #c1aa7f;
-
-
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  color: white;
+  font-size: 22px;
+  border: 1px solid #c1aa7f;
 }
 
 #num-pairs {
-    width: 4rem;
-    height: auto;
+  width: 4rem;
+  height: auto;
 }
 
 #timer {
-    display: none;
-    margin: 2rem;
-    position: fixed;
-    z-index: 1000;
-    top: 85%;
-
+  display: none;
+  margin: 2rem;
+  position: fixed;
+  z-index: 1000;
+  top: 65%;
 }
 
 #timer button {
-    width: 12rem;
-    height: 3rem;
-    gap: 1rem;
-    background-color: rgb(234, 15, 15);
-    border-radius: 25%;
-    border: 1px solid black;
-
+  width: 12rem;
+  height: 12rem;
+  gap: 1rem;
+  background-image: url("../image/redheart.png");
+  background-size: cover;
+  background-position: center;
+  color: rgba(211, 233, 14, 0.92);
+  font-weight: 900;
+  font-size: 30px;
+  background-color: transparent;
+  border: none;
 }
 
 #left-control button {
-    font-size: 17px;
+  font-size: 17px;
 }
 
 #gameBoard {
-    /* margin: 1rem; */
-    padding-left: 11rem;
+  /* margin: 1rem; */
+  padding-left: 11rem;
 }
 
 .board {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    margin-left: 6rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  margin-left: 6rem;
+}
 
+#right-control {
+  background-image: url("../image/zane-lee-IHj0xtWtLKE-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+#right-control .board {
+  margin: 0;
+  padding: 1rem;
+  height: auto;
 }
 
 #playerJoin {
-    display: grid;
-    grid-template-rows: repeat(4, 1fr);
-    width: 35%;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    margin-top: 10%;
-    margin-left: 35%;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  width: 35%;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 10%;
+  margin-left: 35%;
+  background-image: url("../image/zane-lee-IHj0xtWtLKE-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  padding: 1rem;
+  width: 27rem;
+  border: 0.5px solid #c1aa7f;
 }
 
 #playerJoin button,
 #pairsNumber {
-    height: 3.5rem;
-    width: 25rem;
-
+  height: 3.5rem;
+  width: 25rem;
 }
 
 #playerJoin input {
-    width: 100%;
-    font-size: 18px;
-    height: 3.5rem;
-    width: 25rem;
-    border: 1px solid #c1aa7f;
-
+  width: 100%;
+  font-size: 18px;
+  height: 3.5rem;
+  width: 25rem;
+  border: 1px solid #c1aa7f;
 }
 
 #resume,
 #pause,
 #left-control {
-    display: none;
+  display: none;
 }
 
 #startGame {
-    display: block;
+  display: block;
 }
 
 #gameCard {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    height: 40rem;
-    width: 40rem;
-    align-items: start;
-    gap: 1rem;
-    column-gap: 3.5rem;
-    margin-left: 6rem;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  height: 40rem;
+  width: 40rem;
+  align-items: start;
+  gap: 1rem;
+  column-gap: 3.5rem;
+  margin-left: 6rem;
 }
 
 #gameCard {
-    display: none;
+  display: none;
 }
 
 .hidden {
-    visibility: hidden;
-    /* Hides the element but keeps its space in the layout */
+  visibility: hidden;
+  /* Hides the element but keeps its space in the layout */
 }
 
 .card-face-down {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 179px;
-    width: 102px;
-    font-size: 7rem;
-    color: black;
-    background-color: rgb(239, 229, 229);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 179px;
+  width: 102px;
+  font-size: 7rem;
+  color: black;
+  background-color: rgb(239, 229, 229);
 }
 
 .spin {
-    display: flex;
+  display: flex;
+}
+
+.modal-content {
+  background-image: url("../image/zane-lee-IHj0xtWtLKE-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
 }
 
 #gameCard img,
 #gameCard div {
-    transition: transform 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 #gameCard img:hover,
 #gameCard div:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-        /* Start position */
-    }
+  0% {
+    transform: rotate(0deg);
+    /* Start position */
+  }
 
-    100% {
-        transform: rotate(360deg);
-        /* End position */
-    }
+  100% {
+    transform: rotate(360deg);
+    /* End position */
+  }
 }
 
-
-
 footer button {
-    display: none;
-    height: 2rem;
-    width: 13rem;
-    border-radius: 45%;
-    font-size: 18px;
-
+  display: none;
+  height: 2rem;
+  width: 13rem;
+  border-radius: 45%;
+  font-size: 18px;
 }

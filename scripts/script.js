@@ -13,7 +13,7 @@ const game = {
   scorePoint3: 0,
   startGameButt: "",
   switchPlayerButt: "",
-  scorePointButt: "",
+  scoreBoardButt: "",
   resetButt: "",
   resume: "",
   pause: "",
@@ -21,6 +21,9 @@ const game = {
   headerGrid1: "",
   headerGrid2: "",
   headerGrid3: "",
+  rightGrid1: "",
+  rightGrid2: "",
+  rightGrid3: "",
   numPairs: 4,
   remainingTime: 60,
   switchPlayer: false,
@@ -29,6 +32,9 @@ const game = {
   player1TotalSpent: 0,
   player2TotalSpent: 0,
   player3TotalSpent: 0,
+  score1: "",
+  score2: "",
+  score3: "",
 
   addPlayer() {
     return new Promise((resolve) => {
@@ -43,13 +49,19 @@ const game = {
 
           if (this.players.length === 1) {
             this.headerGrid1.textContent = newPlayer.name;
+            this.rightGrid1.textContent = newPlayer.name;
             this.scoreboard1.textContent = newPlayer.getScore();
+            this.score1 = newPlayer.getScore();
           } else if (this.players.length === 2) {
             this.headerGrid2.textContent = newPlayer.name;
+            this.rightGrid2.textContent = newPlayer.name;
             this.scoreboard2.textContent = newPlayer.getScore();
+            this.score2 = newPlayer.getScore();
           } else if (this.players.length === 3) {
             this.headerGrid3.textContent = newPlayer.name;
+            this.rightGrid3.textContent = newPlayer.name;
             this.scoreboard3.textContent = newPlayer.getScore();
+            this.score3 = newPlayer.getScore();
           } else {
             alert("Maximum of 3 players allowed.");
             this.players.pop(newPlayer);
@@ -70,7 +82,7 @@ const game = {
     console.log("initializing game");
     this.startGameButt = document.getElementById("start");
     this.switchPlayerButt = document.getElementById("left-switch");
-    this.scorePointButt = document.getElementById("left-score");
+    this.scoreBoardButt = document.getElementById("left-score");
     this.resume = document.getElementById("left-resume");
     this.pause = document.getElementById("left-pause");
     this.playerJoin = document.getElementById("playerJoin");
@@ -81,10 +93,16 @@ const game = {
     this.scoreboard2 = document.getElementById("scoreboard2");
     this.scoreboard3 = document.getElementById("scoreboard3");
     this.resetButt = document.getElementById("resetButt");
+    this.rightGrid1 = document.getElementById("player1");
+    this.rightGrid2 = document.getElementById("player2");
+    this.rightGrid3 = document.getElementById("player3");
+    this.score1 = document.getElementById("score1");
+    this.score2 = document.getElementById("score1");
+    this.score3 = document.getElementById("score1");
 
     this.startGameButt.disabled = true;
     this.switchPlayerButt.disabled = true;
-    this.scorePointButt.disabled = true;
+    this.scoreBoardButt.disabled = true;
 
     this.headerGrid1.classList.add("disabled");
     this.headerGrid2.classList.add("disabled");
@@ -102,7 +120,7 @@ const game = {
       console.log("game is running", this.isRunning);
       if (this.isRunning) {
         this.switchPlayerButt.disabled = false;
-        this.scorePointButt.disabled = false;
+        this.scoreBoardButt.disabled = false;
 
         this.startGameButt.style.display = "none";
         this.pause.style.display = "block";
@@ -124,7 +142,7 @@ const game = {
       this.pause.disabled = false;
       this.resume.style.display = "none";
       this.switchPlayerButt.disabled = false; // Update reference
-      this.scorePointButt.disabled = false;
+      this.scoreBoardButt.disabled = false;
       console.log("game is resume!");
     });
 
@@ -134,7 +152,7 @@ const game = {
       this.resume.style.display = "block"; // Show resume button
       this.isRunning = false; // Update game state to not running
       this.switchPlayerButt.disabled = true;
-      this.scorePointButt.disabled = true;
+      this.scoreBoardButt.disabled = true;
     });
   },
 
@@ -267,25 +285,30 @@ function shuffleCards() {
 
 function scoreBoard() {
   // Add the spent time for the current player to their total
-  console.log("xcccccc");
   const totalSpent = game.spentTime;
   if (game.activePlayerIndex === 0) {
     game.player1TotalSpent += totalSpent;
     game.scoreboard1.textContent = `Score: ${game.players[0].getScore()}, Time: ${
       game.player1TotalSpent
     }s`;
+    document.getElementById("score1").textContent =
+      game.scoreboard1.textContent;
     console.log("Player 1 Total Spent Time:", game.player1TotalSpent);
   } else if (game.activePlayerIndex === 1) {
     game.player2TotalSpent += totalSpent;
     game.scoreboard2.textContent = `Score: ${game.players[1].getScore()}, Time: ${
       game.player2TotalSpent
     }s`;
+    document.getElementById("score2").textContent =
+      game.scoreboard2.textContent;
     console.log("Player 2 Total Spent Time:", game.player2TotalSpent);
   } else if (game.activePlayerIndex === 2) {
     game.player3TotalSpent += totalSpent;
     game.scoreboard3.textContent = `Score: ${game.players[2].getScore()}, Time: ${
       game.player3TotalSpent
     }s`;
+    document.getElementById("score3").textContent =
+      game.scoreboard3.textContent;
     console.log("Player 3 Total Spent Time:", game.player3TotalSpent);
   }
 }
@@ -386,6 +409,8 @@ function startCountdown(seconds) {
   }, 1000);
 }
 
+function caculateWiner() {}
+
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
@@ -404,6 +429,10 @@ document.addEventListener("DOMContentLoaded", () => {
     game.switchPlayer();
     $("#resetButt").on("click", function () {
       location.reload();
+    });
+    $("#left-score").on("click", function () {
+      document.querySelector("#right-control").classList.toggle("d-none");
+      scoreBoard();
     });
   });
 });
