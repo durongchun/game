@@ -133,6 +133,7 @@ const game = {
         this.headerGrid1.classList.remove("disabled");
         this.scoreboard1.classList.remove("disabled");
         startCountdown(game.remainingTime);
+        stopAnimation(game.remainingTime);
       }
     });
 
@@ -178,6 +179,7 @@ const game = {
       scoreBoard();
 
       startCountdown(game.remainingTime);
+      // stopAnimation(game.remainingTime);
 
       //next player
       this.activePlayerIndex =
@@ -409,7 +411,18 @@ function startCountdown(seconds) {
   }, 1000);
 }
 
-function caculateWiner() {}
+function stopAnimation(seconds) {
+  // Start the heartbeat animation
+  const timeInMilliseconds = seconds * 1000;
+  const heartElement = document.querySelector("#heart");
+
+  console.log("seconds: ", time);
+
+  // Set a timer to stop the animation after 30 seconds
+  setTimeout(() => {
+    heartElement.style.animation = "none"; // Stop the animation
+  }, timeInMilliseconds); // 30 seconds in milliseconds
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
