@@ -473,11 +473,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     game.startGame();
     game.switchPlayer();
+
     $("#resetButt").on("click", function () {
-      location.reload();
+      // Add the fade-out class to the body
+      document.body.classList.add("fade-out");
+
+      // Set a delay for the page reload to match the fade-out duration
+      setTimeout(() => {
+        window.location.reload(); // Refresh the page
+      }, 1000);
     });
+
     $("#left-score").on("click", function () {
-      document.querySelector("#right-control").classList.toggle("d-none");
+      const rightControl = document.querySelector("#right-control");
+
+      if (rightControl.classList.contains("d-none")) {
+        rightControl.classList.remove("d-none", "slide-out");
+        rightControl.classList.add("slide-in");
+      } else {
+        rightControl.classList.remove("slide-in");
+        rightControl.classList.add("slide-out");
+
+        setTimeout(() => {
+          rightControl.classList.add("d-none");
+        }, 300); // Match the animation duration
+      }
+
       scoreBoard();
     });
   });

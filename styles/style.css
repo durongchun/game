@@ -13,6 +13,13 @@ body {
   min-height: 100vh;
   background-color: black;
   color: #c1aa7f;
+  transition: transform 1s ease-out, opacity 2s ease-out;
+}
+
+/* Fade-out effect from bottom to top */
+body.fade-out {
+  opacity: 0;
+  transform: translateY(50px); /* Moves content downward while fading out */
 }
 
 button,
@@ -27,6 +34,11 @@ button:hover,
 input:hover,
 #playerJoin :hover {
   background-color: #efa608; /* Darker blue on hover */
+  transform: scale(0.98); /* Slightly enlarge the button */
+}
+
+#player:hover,
+.board:hover {
   transform: scale(0.98); /* Slightly enlarge the button */
 }
 
@@ -330,6 +342,45 @@ button {
   100% {
     transform: scale(1);
   }
+}
+
+/* Add this to your CSS */
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+#right-control {
+  display: none; /* Hide by default */
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+#right-control.slide-in {
+  display: block;
+  animation: slide-in 0.3s forwards;
+}
+
+#right-control.slide-out {
+  animation: slide-out 0.3s forwards;
 }
 
 footer button {
