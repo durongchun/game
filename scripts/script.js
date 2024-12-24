@@ -406,7 +406,10 @@ function startCountdown(seconds) {
     // Stop the countdown when time runs out
     if (clockRemainingTime <= 0) {
       clearInterval(game.countdownInterval);
-      alert("Time's up!");
+      clockElement.textContent = "00:00";
+      setTimeout(() => {
+        alert("Time's up!");
+      }, 10);
     }
   }, 1000);
 }
@@ -423,6 +426,10 @@ function stopAnimation(seconds) {
     heartElement.style.animation = "none"; // Stop the animation
     console.log("xxxxxx");
   }, timeInMilliseconds); // 30 seconds in milliseconds
+}
+
+function calculateScore() {
+  const scores = [game.scoreboard1, game.scorePoint2, game.scoreboard3];
 }
 
 document.addEventListener("DOMContentLoaded", () => {
