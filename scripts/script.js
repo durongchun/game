@@ -179,7 +179,7 @@ const game = {
       scoreBoard();
 
       startCountdown(game.remainingTime);
-      // stopAnimation(game.remainingTime);
+      stopAnimation(game.remainingTime);
 
       //next player
       this.activePlayerIndex =
@@ -416,11 +416,12 @@ function stopAnimation(seconds) {
   const timeInMilliseconds = seconds * 1000;
   const heartElement = document.querySelector("#heart");
 
-  console.log("seconds: ", time);
+  console.log("seconds: ", timeInMilliseconds);
 
   // Set a timer to stop the animation after 30 seconds
   setTimeout(() => {
     heartElement.style.animation = "none"; // Stop the animation
+    console.log("xxxxxx");
   }, timeInMilliseconds); // 30 seconds in milliseconds
 }
 

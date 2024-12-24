@@ -128,19 +128,21 @@ button {
   margin: 2rem;
   position: fixed;
   z-index: 1000;
-  top: 70%;
+  top: 85%;
+}
+
+#heart {
+  display: flex;
+  flex-direction: row;
 }
 
 #timer button {
   width: 12rem;
   height: 12rem;
-  gap: 1rem;
-  background-image: url("../image/redheart.png");
-  background-size: cover;
-  background-position: center;
+  gap: 0.1rem;
   color: rgba(211, 233, 14, 0.92);
   font-weight: 900;
-  font-size: 30px;
+  font-size: 24px;
   background-color: transparent;
   border: none;
 }
@@ -148,6 +150,14 @@ button {
 #clock {
   background-color: black;
   padding: 0.2rem;
+  border-radius: 10px;
+}
+
+#heartText {
+  background-color: black;
+  color: red;
+  padding: 0.2rem;
+  border-radius: 10px;
 }
 
 #left-control button {
@@ -221,8 +231,8 @@ button {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  height: 40rem;
-  width: 40rem;
+  /* height: 40rem; */
+  width: 44rem;
   align-items: start;
   gap: 1rem;
   column-gap: 3.5rem;
