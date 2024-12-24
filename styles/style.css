@@ -25,7 +25,9 @@ input,
 button:hover,
 #pairsNumber:hover,
 input:hover,
-#playerJoin :hover {
+#playerJoin :hover,
+#right-control:hover,
+#right-control > div:hover {
   background-color: #efa608; /* Darker blue on hover */
   transform: scale(0.98); /* Slightly enlarge the button */
 }
@@ -69,14 +71,14 @@ button {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 0.5rem;
-  font-size: 25px;
+  font-size: 17px;
   margin-left: 5rem;
   margin-right: 5rem;
 }
 
 #player {
   display: none;
-  font-size: 22px;
+  font-size: 17px;
 }
 
 .disabled {
@@ -103,9 +105,9 @@ button {
   left: 86%;
   top: 15%;
   border-radius: 5%;
-  height: 20rem;
+  min-height: 20rem;
   color: white;
-  border: 1px solid #c1aa7f;
+  /* border: 1px solid #c1aa7f; */
 }
 
 #pairsNumber {
@@ -179,6 +181,7 @@ button {
   background-image: url("../image/zane-lee-IHj0xtWtLKE-unsplash.jpg");
   background-size: cover;
   background-position: center;
+  box-shadow: inset 0px 0px 5px 10px rgb(215 242 13 / 30%);
 }
 
 #right-control .board {
