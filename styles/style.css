@@ -25,11 +25,23 @@ input,
 button:hover,
 #pairsNumber:hover,
 input:hover,
-#playerJoin :hover,
-#right-control:hover,
-#right-control > div:hover {
+#playerJoin :hover {
   background-color: #efa608; /* Darker blue on hover */
   transform: scale(0.98); /* Slightly enlarge the button */
+}
+
+#right-control:hover {
+  transform: scale(1.08); /* Slightly enlarge the button */
+}
+
+#right-control > div:hover,
+#right-control > div > h5:hover {
+  background-color: #efa608; /* Darker blue on hover */
+  transform: scale(0.9); /* Slightly enlarge the button */
+  border-radius: 10px;
+  height: auto;
+  padding: 0;
+  margin: 0;
 }
 
 header,
