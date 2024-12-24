@@ -122,6 +122,11 @@ button {
   /* border: 1px solid #c1aa7f; */
 }
 
+#winner {
+  padding: 2rem;
+  color: yellow;
+}
+
 #pairsNumber {
   display: flex;
   flex-wrap: wrap;

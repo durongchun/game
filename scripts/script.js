@@ -1,16 +1,13 @@
 "use strict";
 
 const game = {
-  title: "Hitch",
+  title: "Memory Card",
   isRunning: false,
   players: [],
   activePlayerIndex: 0, //this is activePlayer index
   scoreboard1: "",
   scoreboard2: "",
   scoreboard3: "",
-  scorePoint1: 0,
-  scorePoint2: 0,
-  scorePoint3: 0,
   startGameButt: "",
   switchPlayerButt: "",
   scoreBoardButt: "",
@@ -313,6 +310,12 @@ function scoreBoard() {
       game.scoreboard3.textContent;
     console.log("Player 3 Total Spent Time:", game.player3TotalSpent);
   }
+
+  const result = determineWinner();
+  console.log("result: ", JSON.stringify(result));
+  document.getElementById(
+    "winner"
+  ).textContent = `Winner: ${result.Winner}, Score: ${result.Score}, Time: ${result.Time}s`;
 }
 
 let clickCards = [];
@@ -424,12 +427,34 @@ function stopAnimation(seconds) {
   // Set a timer to stop the animation after 30 seconds
   setTimeout(() => {
     heartElement.style.animation = "none"; // Stop the animation
-    console.log("xxxxxx");
   }, timeInMilliseconds); // 30 seconds in milliseconds
 }
 
-function calculateScore() {
+function determineWinner() {
   const scores = [game.scoreboard1, game.scorePoint2, game.scoreboard3];
+  const times = [
+    game.player1TotalSpent,
+    game.player2TotalSpent,
+    game.player3TotalSpent,
+  ];
+
+  let winnerIndex = 0;
+
+  for (let i = 1; i < scores.length; i++) {
+    if (scores[i] > scores[winnerIndex]) {
+      winnerIndex = i;
+    } else if (scores[i] === scores[winnerIndex]) {
+      if (times[i] < times[winnerIndex]) {
+        winnerIndex = i;
+      }
+    }
+  }
+
+  return {
+    Winner: game.players[winnerIndex + 1].name,
+    Score: game.players[winnerIndex + 1].score,
+    Time: times[winnerIndex + 1],
+  };
 }
 
 document.addEventListener("DOMContentLoaded", () => {
