@@ -51,7 +51,7 @@
       </div>
       <div id="right-control" class="d-none">
         <div>
-          <h5 class="text-center p-3">Score Board</h5>
+          <h5 class="text-center p-">Score Board</h5>
         </div>
         <div class="board">
           <div id="player1"></div>
@@ -78,22 +78,23 @@
       <div id="gameBoard">
         <div id="playerJoin">
           <input
+            class="text-center"
             type="text"
             id="userInput"
             placeholder="Type player name here"
           />
           <button id="myButton">Join</button>
-          <div id="pairsNumber" class="text-center bg-dark">
-            <label for="num-pairs"
-              >Number of pairs
-              <select id="num-pairs" name="num-pairs" class="text-center">
-                <option value="4">4</option>
-                <option value="8">8</option>
-                <option value="12">12</option>
-                <option value="16">16</option>
-              </select></label
-            >
-            <!-- <span></span>  -->
+          <button id="next">Next</button>
+        </div>
+        <div class="d-none" id="pairStart">
+          <div id="pairs">
+            <label for="num-pairs">Number of pairs </label>
+            <select id="num-pairs" name="num-pairs" class="text-center">
+              <option value="4">4</option>
+              <option value="8">8</option>
+              <option value="12">12</option>
+              <option value="16">16</option>
+            </select>
           </div>
           <button id="start">Start Game</button>
         </div>

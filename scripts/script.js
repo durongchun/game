@@ -126,6 +126,9 @@ const game = {
         this.pause.style.display = "block";
         this.playerJoin.style.display = "none";
         this.resetButt.style.display = "block";
+        document.getElementById("game").style.backgroundImage =
+          'url("../image/pexels-heather-rosario-1293045183-24363595.jpg")';
+        document.getElementById("pairStart").style.display = "none";
 
         // Add animation classes to the elements
         document.getElementById("left-control").style.display = "grid";
@@ -519,6 +522,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       scoreBoard();
+    });
+
+    $("#next").on("click", function () {
+      document.body.classList.add("fade-out");
+
+      setTimeout(() => {
+        document.getElementById("pairStart").classList.remove("d-none");
+        document.getElementById("playerJoin").classList.add("d-none");
+        document.getElementById("game").style.backgroundImage =
+          'url("../image/zane-lee-IHj0xtWtLKE-unsplash.jpg")';
+        document.body.classList.remove("fade-out");
+      }, 800);
     });
   });
 });

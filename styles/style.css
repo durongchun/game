@@ -26,15 +26,23 @@ button,
 #pairsNumber,
 input,
 #playerJoin {
-  border-radius: 10px;
+  border-radius: 30px;
 }
 
 button:hover,
 #pairsNumber:hover,
 input:hover,
-#playerJoin :hover {
+#playerJoin :hover,
+#pairs label:hover,
+select:hover {
   background-color: #efa608;
   transform: scale(0.98);
+}
+
+#pairs label {
+  background-color: #0e0d0a;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #player:hover,
@@ -54,6 +62,11 @@ input:hover,
   height: auto;
   padding: 0;
   margin: 0;
+}
+
+#start {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 
 header,
@@ -221,31 +234,30 @@ button {
 
 #playerJoin {
   display: grid;
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   width: 35%;
   gap: 1rem;
   margin-bottom: 2rem;
   margin-top: 10%;
   margin-left: 35%;
-  background-image: url("../image/zane-lee-IHj0xtWtLKE-unsplash.jpg");
-  background-size: cover;
-  background-position: center;
-  padding: 1rem;
-  width: 27rem;
-  border: 0.5px solid #c1aa7f;
+  background-color: #0a0a09;
+  padding: 2rem;
+  width: 25rem;
+  border: 0.5px solid #1e1e1d;
+  justify-content: center;
+  box-shadow: inset 0px 0px 5px 10px rgb(215 242 13 / 30%);
 }
 
 #playerJoin button,
 #pairsNumber {
-  height: 3.5rem;
-  width: 25rem;
+  height: 3rem;
+  width: 18rem;
 }
 
 #playerJoin input {
-  width: 100%;
-  font-size: 18px;
-  height: 3.5rem;
-  width: 25rem;
+  font-size: 17px;
+  height: 2.8rem;
+  width: 17.8rem;
   border: 1px solid #c1aa7f;
 }
 
@@ -273,6 +285,24 @@ button {
 
 #gameCard {
   display: none;
+}
+
+#pairStart {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  color: white;
+  /* background-color: #6f600747; */
+  padding: 2rem;
+}
+
+#pairs {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  font-size: 24px;
 }
 
 .hidden {
