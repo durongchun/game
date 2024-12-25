@@ -115,20 +115,39 @@ const game = {
     this.startGameButt.addEventListener("click", () => {
       this.isRunning = true;
       console.log("game is running", this.isRunning);
+
       if (this.isRunning) {
+        // Enable buttons
         this.switchPlayerButt.disabled = false;
         this.scoreBoardButt.disabled = false;
 
+        // Hide and show elements with animation
         this.startGameButt.style.display = "none";
         this.pause.style.display = "block";
         this.playerJoin.style.display = "none";
         this.resetButt.style.display = "block";
+
+        // Add animation classes to the elements
         document.getElementById("left-control").style.display = "grid";
         document.getElementById("gameCard").style.display = "grid";
         document.getElementById("timer").style.display = "flex";
 
+        // Apply the animation with delays to each element
+        document
+          .getElementById("left-control")
+          .classList.add("show-up", "show-up-delay-1");
+        document
+          .getElementById("gameCard")
+          .classList.add("show-up", "show-up-delay-2");
+        document
+          .getElementById("timer")
+          .classList.add("show-up", "show-up-delay-3");
+
+        // Apply the header and scoreboard transitions
         this.headerGrid1.classList.remove("disabled");
         this.scoreboard1.classList.remove("disabled");
+
+        // Start countdown and stop animation
         startCountdown(game.remainingTime);
         stopAnimation(game.remainingTime);
       }
