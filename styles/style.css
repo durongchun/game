@@ -64,6 +64,10 @@ select:hover {
   margin: 0;
 }
 
+#right-control > div > h5 {
+  padding: 1rem;
+}
+
 #start {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -83,6 +87,10 @@ button {
   font-size: 22px;
   background-color: #c1aa7f;
   color: white;
+  cursor: pointer;
+}
+
+select {
   cursor: pointer;
 }
 
@@ -163,7 +171,7 @@ button {
 }
 
 #num-pairs {
-  width: 4rem;
+  width: 6rem;
   height: auto;
 }
 
@@ -289,16 +297,23 @@ button {
 
 #pairStart {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 4rem;
   color: white;
-  /* background-color: #6f600747; */
-  padding: 2rem;
+  background-color: #6f600747;
+  width: 700px;
+  height: 400px;
+  margin-left: 24rem;
+  margin-top: 2rem;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px 10px rgb(215 242 13 / 30%);
+  font-size: 18px;
 }
 
-#pairs {
+#pairs,
+#ready {
   display: flex;
   flex-direction: row;
   gap: 1rem;

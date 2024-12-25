@@ -76,7 +76,7 @@
         </button>
       </div>
       <div id="gameBoard">
-        <div id="playerJoin">
+        <div id="playerJoin" class="pt-5 pb-5">
           <input
             class="text-center"
             type="text"
@@ -88,7 +88,7 @@
         </div>
         <div class="d-none" id="pairStart">
           <div id="pairs">
-            <label for="num-pairs">Number of pairs </label>
+            <label for="num-pairs">Please select the number of pairs </label>
             <select id="num-pairs" name="num-pairs" class="text-center">
               <option value="4">4</option>
               <option value="8">8</option>
@@ -96,7 +96,10 @@
               <option value="16">16</option>
             </select>
           </div>
-          <button id="start">Start Game</button>
+          <div id="ready">
+            <label for="start">Are you ready?</label>
+            <button id="start">Start Game</button>
+          </div>
         </div>
         <div id="gameCard"></div>
       </div>

@@ -528,6 +528,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.add("fade-out");
 
       setTimeout(() => {
+        game.resetButt.style.display = "block";
         document.getElementById("pairStart").classList.remove("d-none");
         document.getElementById("playerJoin").classList.add("d-none");
         document.getElementById("game").style.backgroundImage =
