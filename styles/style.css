@@ -29,12 +29,17 @@ input,
   border-radius: 30px;
 }
 
+.modal-footer > button {
+  background-color: white;
+}
+
 button:hover,
 #pairsNumber:hover,
 input:hover,
 #playerJoin :hover,
 #pairs label:hover,
-select:hover {
+select:hover,
+.modal-footer > button:hover {
   background-color: #efa608;
   transform: scale(0.98);
 }
@@ -318,6 +323,15 @@ select {
   flex-direction: row;
   gap: 1rem;
   font-size: 24px;
+}
+
+.modal-content {
+  box-shadow: inset 0px 0px 5px 10px rgb(215 242 13 / 30%);
+  padding: 2rem;
+}
+
+.modal-body {
+  padding: 2rem;
 }
 
 .hidden {

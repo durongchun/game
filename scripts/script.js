@@ -23,6 +23,7 @@ const game = {
   rightGrid3: "",
   numPairs: 4,
   remainingTime: 60,
+  clockRemainingTime: 0,
   switchPlayer: false,
   countdownInterval: 0,
   spentTime: 0,
@@ -32,6 +33,8 @@ const game = {
   score1: "",
   score2: "",
   score3: "",
+  images: "",
+  cardFaceDown: "",
 
   addPlayer() {
     return new Promise((resolve) => {
@@ -164,6 +167,9 @@ const game = {
       this.switchPlayerButt.disabled = false; // Update reference
       this.scoreBoardButt.disabled = false;
       console.log("game is resume!");
+      shuffleCards();
+      startCountdown(game.clockRemainingTime);
+      stopAnimation(game.clockRemainingTime);
     });
 
     this.pause.addEventListener("click", () => {
@@ -173,6 +179,11 @@ const game = {
       this.isRunning = false; // Update game state to not running
       this.switchPlayerButt.disabled = true;
       this.scoreBoardButt.disabled = true;
+      console.log("xxxxxxxxxxx", game.countdownInterval);
+      console.log("game.clockRemainingTime: ", game.clockRemainingTime);
+
+      clearInterval(game.countdownInterval);
+      stopAnimation(0);
     });
   },
 
@@ -286,23 +297,27 @@ function generateImagePairs(numPairs) {
 }
 
 function shuffleCards() {
-  const images = $("#gameCard img").toArray();
-  const cardFaceDown = $(".card-face-down").toArray();
+  game.images = $("#gameCard img").toArray();
+  game.cardFaceDown = $(".card-face-down").toArray();
   const possibleCards = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-  console.log("images: ", images.length);
+  console.log("images: ", game.images.length);
 
-  const selectedCards = possibleCards.slice(0, images.length / 2);
+  const selectedCards = possibleCards.slice(0, game.images.length / 2);
   const cards = [...selectedCards, ...selectedCards].sort(
     () => Math.random() - 0.5
   );
 
   console.log("selectdCards:", JSON.stringify(selectedCards));
   console.log("cards", JSON.stringify(cards));
-  images.forEach((image, index) => {
-    cardFaceDown[index].textContent = cards[index];
-    $(image).on("click", () => handleCardClick(image, cardFaceDown[index]));
+  game.images.forEach((image, index) => {
+    game.cardFaceDown[index].textContent = cards[index];
+    $(image).on("click", () =>
+      handleCardClick(image, game.cardFaceDown[index])
+    );
   });
 }
+
+function resumeShuffleCards() {}
 
 function scoreBoard() {
   // Add the spent time for the current player to their total
@@ -411,7 +426,7 @@ function formatTime(seconds) {
 // Function to start the countdown
 function startCountdown(seconds) {
   // let countdownInterval; // Variable to store the countdown interval
-  let clockRemainingTime = seconds;
+  game.clockRemainingTime = seconds;
   const clockElement = document.querySelector("#clock");
 
   if (!clockElement) {
@@ -420,20 +435,20 @@ function startCountdown(seconds) {
   }
 
   // Set the initial value on the clock
-  clockElement.textContent = formatTime(clockRemainingTime);
+  clockElement.textContent = formatTime(game.clockRemainingTime);
 
   // Update the clock every second
   game.countdownInterval = setInterval(() => {
-    clockRemainingTime--;
-    clockElement.textContent = formatTime(clockRemainingTime);
-    game.spentTime = game.remainingTime - clockRemainingTime;
+    game.clockRemainingTime--;
+    clockElement.textContent = formatTime(game.clockRemainingTime);
+    game.spentTime = game.remainingTime - game.clockRemainingTime;
 
     // Stop the countdown when time runs out
-    if (clockRemainingTime <= 0) {
+    if (game.clockRemainingTime <= 0) {
       clearInterval(game.countdownInterval);
       clockElement.textContent = "00:00";
       setTimeout(() => {
-        alert("Time's up!");
+        alert("Game is over!");
       }, 10);
     }
   }, 1000);
