@@ -501,7 +501,7 @@ function stopAnimation(seconds) {
 }
 
 function determineWinner() {
-  const scores = [game.scoreboard1, game.scorePoint2, game.scoreboard3];
+  const scores = [game.scoreboard1, game.scoreboard3, game.scoreboard3];
   const times = [
     game.player1TotalSpent,
     game.player2TotalSpent,
@@ -520,10 +520,11 @@ function determineWinner() {
     }
   }
 
+  // Return the winner's details, use winnerIndex directly
   return {
-    Winner: game.players[winnerIndex + 1].name,
-    Score: game.players[winnerIndex + 1].score,
-    Time: times[winnerIndex + 1],
+    Winner: game.players[winnerIndex].name, // Access directly with winnerIndex
+    Score: game.players[winnerIndex].score, // Use the correct score
+    Time: times[winnerIndex], // Use the correct time
   };
 }
 
