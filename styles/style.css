@@ -76,6 +76,7 @@ select:hover,
 #start {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+  font-size: 20px;
 }
 
 header,
@@ -157,7 +158,10 @@ select {
   border-radius: 5%;
   min-height: 20rem;
   color: white;
-  /* border: 1px solid #c1aa7f; */
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  padding-left: 0.5rem;
+  padding-right: 0.2rem;
 }
 
 #winner {
@@ -305,16 +309,15 @@ select {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 4rem;
+  gap: 2rem;
   color: white;
   background-color: #6f600747;
-  width: 700px;
-  height: 400px;
-  margin-left: 24rem;
+  width: 600px;
+  height: 200px;
+  margin-left: 27rem;
   margin-top: 2rem;
   border-radius: 10px;
   box-shadow: inset 0px 0px 5px 10px rgb(215 242 13 / 30%);
-  font-size: 18px;
 }
 
 #pairs,
@@ -322,7 +325,7 @@ select {
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .modal-content {

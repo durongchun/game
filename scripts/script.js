@@ -382,7 +382,7 @@ function scoreBoard() {
   console.log("result: ", JSON.stringify(result));
   document.getElementById(
     "winner"
-  ).textContent = `Winner: ${result.Winner}, Score: ${result.Score}, Time: ${result.Time}s`;
+  ).innerHTML = `Winner <br> ${result.Winner}, Score: ${result.Score}, Time: ${result.Time}s`;
 }
 
 // let clickCards = [];
@@ -419,7 +419,8 @@ function handleCardClick(image, cardFace) {
         .addClass("matched");
 
       if (pairs === game.numPairs) {
-        showAlertModal();
+        const modalElement = document.querySelector("#alertModal");
+        showAlertModal(modalElement);
 
         clearInterval(game.countdownInterval);
         pairs = 0;
@@ -436,10 +437,9 @@ function handleCardClick(image, cardFace) {
   }
 }
 
-function showAlertModal() {
-  const modalElement = document.querySelector("#alertModal");
-  if (modalElement) {
-    const alertModal = new bootstrap.Modal(modalElement);
+function showAlertModal(modal) {
+  if (modal) {
+    const alertModal = new bootstrap.Modal(modal);
     alertModal.show();
   } else {
     console.error("Modal element not found!");
@@ -480,7 +480,8 @@ function startCountdown(seconds) {
       clearInterval(game.countdownInterval);
       clockElement.textContent = "00:00";
       setTimeout(() => {
-        alert("Game is over!");
+        const modal = document.querySelector("#alertModal2");
+        showAlertModal(modal);
       }, 10);
     }
   }, 1000);
