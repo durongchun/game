@@ -35,6 +35,8 @@ const game = {
   score3: "",
   images: "",
   cardFaceDown: "",
+  cards: [],
+  clickCards: [],
 
   addPlayer() {
     return new Promise((resolve) => {
@@ -167,7 +169,7 @@ const game = {
       this.switchPlayerButt.disabled = false; // Update reference
       this.scoreBoardButt.disabled = false;
       console.log("game is resume!");
-      shuffleCards();
+      resumeShuffleCards();
       startCountdown(game.clockRemainingTime);
       stopAnimation(game.clockRemainingTime);
     });
@@ -300,24 +302,52 @@ function shuffleCards() {
   game.images = $("#gameCard img").toArray();
   game.cardFaceDown = $(".card-face-down").toArray();
   const possibleCards = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-  console.log("images: ", game.images.length);
+  console.log("images: ", JSON.stringify(game.images));
 
   const selectedCards = possibleCards.slice(0, game.images.length / 2);
-  const cards = [...selectedCards, ...selectedCards].sort(
+  game.cards = [...selectedCards, ...selectedCards].sort(
     () => Math.random() - 0.5
   );
 
   console.log("selectdCards:", JSON.stringify(selectedCards));
-  console.log("cards", JSON.stringify(cards));
+  console.log("cards", JSON.stringify(game.cards));
   game.images.forEach((image, index) => {
-    game.cardFaceDown[index].textContent = cards[index];
+    game.cardFaceDown[index].textContent = game.cards[index];
     $(image).on("click", () =>
       handleCardClick(image, game.cardFaceDown[index])
     );
   });
 }
 
-function resumeShuffleCards() {}
+function resumeShuffleCards() {
+  console.log(
+    "resume game.images: ",
+    game.images.length,
+    JSON.stringify(game.images)
+  );
+  console.log(
+    "game.cardFaceDown",
+    game.cardFaceDown.length,
+    JSON.stringify(game.cardFaceDown)
+  );
+  console.log("cards", JSON.stringify(game.cards));
+  game.isRunning = true;
+
+  game.images.forEach((image, index) => {
+    // Remove any existing click event listeners
+    $(image).off("click");
+
+    // Update the card face content
+    game.cardFaceDown[index].textContent = game.cards[index];
+    console.log("xxxx", game.cardFaceDown[index].textContent);
+
+    // Reapply the click event listener
+    $(image).on("click", () => {
+      console.log(`Card clicked [${index}]:`, game.cardFaceDown[index]);
+      handleCardClick(image, game.cardFaceDown[index]);
+    });
+  });
+}
 
 function scoreBoard() {
   // Add the spent time for the current player to their total
@@ -355,22 +385,24 @@ function scoreBoard() {
   ).textContent = `Winner: ${result.Winner}, Score: ${result.Score}, Time: ${result.Time}s`;
 }
 
-let clickCards = [];
+// let clickCards = [];
 let preventClicks = false;
 let pairs = 0;
 
 function handleCardClick(image, cardFace) {
+  console.log("game.isRunning", game.isRunning);
   if (preventClicks || !game.isRunning) return;
 
+  console.log("resume clickxxxxxxx");
   $(image).addClass("hidden");
   $(cardFace).removeClass("d-none");
 
-  clickCards.push(cardFace.textContent);
+  game.clickCards.push(cardFace.textContent);
 
-  if (clickCards.length === 2) {
-    console.log("clickCards ", JSON.stringify(clickCards));
+  if (game.clickCards.length === 2) {
+    console.log("game.clickCards ", JSON.stringify(game.clickCards));
     preventClicks = true;
-    const [first, second] = clickCards;
+    const [first, second] = game.clickCards;
 
     if (first === second) {
       pairs++;
@@ -400,7 +432,7 @@ function handleCardClick(image, cardFace) {
       }, 500);
     }
 
-    clickCards = [];
+    game.clickCards = [];
   }
 }
 
