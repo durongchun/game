@@ -37,6 +37,7 @@ const game = {
   cardFaceDown: "",
   cards: [],
   clickCards: [],
+  gameRunningSound: "",
   backGroundMusic: "",
 
   addPlayer() {
@@ -171,6 +172,7 @@ const game = {
       this.switchPlayerButt.disabled = false; // Update reference
       this.scoreBoardButt.disabled = false;
       console.log("game is resume!");
+      startGameSound(game.remainingTime);
       resumeShuffleCards();
       startCountdown(game.clockRemainingTime);
       stopAnimation(game.clockRemainingTime);
@@ -186,6 +188,8 @@ const game = {
       console.log("xxxxxxxxxxx", game.countdownInterval);
       console.log("game.clockRemainingTime: ", game.clockRemainingTime);
 
+      clearInterval(game.backGroundMusic);
+      game.gameRunningSound.pause();
       clearInterval(game.countdownInterval);
       stopAnimation(0);
     });
@@ -205,6 +209,9 @@ const game = {
 
   switchPlayer() {
     this.switchPlayerButt.addEventListener("click", () => {
+      clearInterval(game.backGroundMusic);
+      game.gameRunningSound.pause();
+      startGameSound(game.remainingTime);
       this.resetImages();
       generateImagePairs(game.numPairs);
       shuffleCards();
@@ -421,9 +428,10 @@ function handleCardClick(image, cardFace) {
         .addClass("matched");
 
       if (pairs === game.numPairs) {
+        clearInterval(game.backGroundMusic);
+        game.gameRunningSound.pause();
         const modalElement = document.querySelector("#alertModal");
         showAlertModal(modalElement);
-
         clearInterval(game.countdownInterval);
         pairs = 0;
       }
@@ -533,18 +541,32 @@ function determineWinner() {
 }
 
 function winnerBoard() {
-  document.getElementById("gameWinner").classList.remove("d-none");
-  document.getElementById("game").classList.add("d-none");
-  document.getElementById("gameWinnerSound").play();
+  const gameWinner = document.getElementById("gameWinner");
+  const game = document.getElementById("game");
+  const gameWinnerSound = document.getElementById("gameWinnerSound");
   const result = determineWinner();
-  console.log("result: ", JSON.stringify(result));
-  document.getElementById(
-    "gameWinner"
-  ).innerHTML = `<h1 class="winner-name">${result.Winner} <span class="text-warning">is winner! </span></h1>`;
+
+  // Show the winner board and play sound
+  gameWinner.classList.remove("d-none");
+  game.classList.add("d-none");
+  gameWinnerSound.play();
+
+  // Display the winner
+  gameWinner.innerHTML = `
+    <h1 class="winner-name">${result.Winner} 
+      <span class="text-warning">is the winner!</span>
+    </h1>`;
+
+  // Revert to game view after 2 seconds
   setTimeout(() => {
-    document.getElementById("gameWinner").classList.add("d-none");
-    document.getElementById("game").classList.remove("d-none");
+    gameWinner.classList.add("d-none");
+    game.classList.remove("d-none");
+    gameWinnerSound.pause();
+    gameWinnerSound.currentTime = 0; // Reset sound
   }, 2000);
+
+  // Log the result for debugging
+  console.log("result: ", JSON.stringify(result));
 }
 
 function startGameSound(seconds) {
@@ -554,14 +576,14 @@ function startGameSound(seconds) {
 
   setTimeout(() => {
     game.backGroundMusic = setInterval(() => {
-      const gameRunningSound = document.getElementById("gameRunningSound");
+      game.gameRunningSound = document.getElementById("gameRunningSound");
       gameRunningSound.play();
       console.log("Game started, playing sound!");
     }, 500);
 
     setTimeout(() => {
       clearInterval(game.backGroundMusic);
-      gameRunningSound.pause();
+      game.gameRunningSound.pause();
       console.log("Stopped background music.");
     }, timeInMilliseconds - 1000);
   }, 2000);
