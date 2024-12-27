@@ -37,6 +37,7 @@ const game = {
   cardFaceDown: "",
   cards: [],
   clickCards: [],
+  backGroundMusic: "",
 
   addPlayer() {
     return new Promise((resolve) => {
@@ -122,6 +123,7 @@ const game = {
       console.log("game is running", this.isRunning);
 
       if (this.isRunning) {
+        startGameSound(game.remainingTime);
         // Enable buttons
         this.switchPlayerButt.disabled = false;
         this.scoreBoardButt.disabled = false;
@@ -440,6 +442,8 @@ function handleCardClick(image, cardFace) {
 function showAlertModal(modal) {
   if (modal) {
     const alertModal = new bootstrap.Modal(modal);
+    const gameOverSound = document.getElementById("gameOverSound");
+    gameOverSound.play();
     alertModal.show();
   } else {
     console.error("Modal element not found!");
@@ -531,17 +535,38 @@ function determineWinner() {
 function winnerBoard() {
   document.getElementById("gameWinner").classList.remove("d-none");
   document.getElementById("game").classList.add("d-none");
+  document.getElementById("gameWinnerSound").play();
+  const result = determineWinner();
+  console.log("result: ", JSON.stringify(result));
+  document.getElementById(
+    "gameWinner"
+  ).innerHTML = `<h1 class="winner-name">${result.Winner} <span class="text-warning">is winner! </span></h1>`;
   setTimeout(() => {
     document.getElementById("gameWinner").classList.add("d-none");
     document.getElementById("game").classList.remove("d-none");
-
-    const result = determineWinner();
-    console.log("result: ", JSON.stringify(result));
-    document.getElementById(
-      "gameWinner"
-    ).innerHTML = `<h1 class="winner-name">${result.Winner} <span class="text-warning">is winner! </span></h1>`;
   }, 2000);
 }
+
+function startGameSound(seconds) {
+  const timeInMilliseconds = seconds * 1000;
+  const gameStartSound = document.getElementById("gameStartSound");
+  gameStartSound.play();
+
+  setTimeout(() => {
+    game.backGroundMusic = setInterval(() => {
+      const gameRunningSound = document.getElementById("gameRunningSound");
+      gameRunningSound.play();
+      console.log("Game started, playing sound!");
+    }, 500);
+
+    setTimeout(() => {
+      clearInterval(game.backGroundMusic);
+      gameRunningSound.pause();
+      console.log("Stopped background music.");
+    }, timeInMilliseconds - 1000);
+  }, 2000);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
