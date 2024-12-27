@@ -382,7 +382,7 @@ function scoreBoard() {
   console.log("result: ", JSON.stringify(result));
   document.getElementById(
     "winner"
-  ).innerHTML = `Winner <br> ${result.Winner}, Score: ${result.Score}, Time: ${result.Time}s`;
+  ).innerHTML = `Winner <span class="winner-name">${result.Winner}</span> <br> Score: ${result.Score}, Time: ${result.Time}s`;
 }
 
 // let clickCards = [];
@@ -528,6 +528,20 @@ function determineWinner() {
   };
 }
 
+function winnerBoard() {
+  document.getElementById("gameWinner").classList.remove("d-none");
+  document.getElementById("game").classList.add("d-none");
+  setTimeout(() => {
+    document.getElementById("gameWinner").classList.add("d-none");
+    document.getElementById("game").classList.remove("d-none");
+
+    const result = determineWinner();
+    console.log("result: ", JSON.stringify(result));
+    document.getElementById(
+      "gameWinner"
+    ).innerHTML = `<h1 class="winner-name">${result.Winner} <span class="text-warning">is winner! </span></h1>`;
+  }, 2000);
+}
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
@@ -556,6 +570,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     $("#left-score").on("click", function () {
+      winnerBoard();
       const rightControl = document.querySelector("#right-control");
 
       if (rightControl.classList.contains("d-none")) {

@@ -16,6 +16,16 @@ body {
   transition: transform 1s ease-out, opacity 2s ease-out;
 }
 
+#gameWinner {
+  display: flex;
+  background-image: url(../image/fireworks-15757.gif);
+  background-size: cover;
+  background-position: center;
+  height: 98vh;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Fade-out effect from bottom to top */
 body.fade-out {
   opacity: 0;
@@ -372,6 +382,30 @@ select {
 #gameCard img:hover,
 #gameCard div:hover {
   transform: scale(1.05);
+}
+
+.winner-name {
+  color: red;
+  display: inline-block; /* Add this line */
+  animation: jump 0.5s infinite;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+#winner .winner-name {
+  font-size: 24px;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
