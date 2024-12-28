@@ -190,6 +190,7 @@ const game = {
 
       clearInterval(game.backGroundMusic);
       game.gameRunningSound.pause();
+      game.gameRunningSound.currentTime = 0;
       clearInterval(game.countdownInterval);
       stopAnimation(0);
     });
@@ -211,6 +212,7 @@ const game = {
     this.switchPlayerButt.addEventListener("click", () => {
       clearInterval(game.backGroundMusic);
       game.gameRunningSound.pause();
+      game.gameRunningSound.currentTime = 0;
       startGameSound(game.remainingTime);
       this.resetImages();
       generateImagePairs(game.numPairs);
@@ -366,6 +368,7 @@ function scoreBoard() {
     game.scoreboard1.textContent = `Score: ${game.players[0].getScore()}, Time: ${
       game.player1TotalSpent
     }s`;
+    game.score1 = game.players[0].getScore();
     document.getElementById("score1").textContent =
       game.scoreboard1.textContent;
     console.log("Player 1 Total Spent Time:", game.player1TotalSpent);
@@ -376,6 +379,7 @@ function scoreBoard() {
     }s`;
     document.getElementById("score2").textContent =
       game.scoreboard2.textContent;
+    game.score2 = game.players[1].getScore();
     console.log("Player 2 Total Spent Time:", game.player2TotalSpent);
   } else if (game.activePlayerIndex === 2) {
     game.player3TotalSpent += totalSpent;
@@ -384,6 +388,7 @@ function scoreBoard() {
     }s`;
     document.getElementById("score3").textContent =
       game.scoreboard3.textContent;
+    game.score3 = game.players[2].getScore();
     console.log("Player 3 Total Spent Time:", game.player3TotalSpent);
   }
 
@@ -430,6 +435,7 @@ function handleCardClick(image, cardFace) {
       if (pairs === game.numPairs) {
         clearInterval(game.backGroundMusic);
         game.gameRunningSound.pause();
+        game.gameRunningSound.currentTime = 0;
         const modalElement = document.querySelector("#alertModal");
         showAlertModal(modalElement);
         clearInterval(game.countdownInterval);
@@ -513,30 +519,36 @@ function stopAnimation(seconds) {
 }
 
 function determineWinner() {
-  const scores = [game.scoreboard1, game.scoreboard3, game.scoreboard3];
+  const scores = [game.score1, game.score2, game.score3]; // Corrected the repeated scoreboard3
   const times = [
     game.player1TotalSpent,
     game.player2TotalSpent,
     game.player3TotalSpent,
   ];
 
+  console.log("scores: ", JSON.stringify(scores));
+  console.log("times: ", JSON.stringify(times));
+
   let winnerIndex = 0;
 
   for (let i = 1; i < scores.length; i++) {
     if (scores[i] > scores[winnerIndex]) {
+      // Higher score is better
       winnerIndex = i;
     } else if (scores[i] === scores[winnerIndex]) {
+      // If scores are equal, compare times
       if (times[i] < times[winnerIndex]) {
+        // Lower time is better for tiebreak
         winnerIndex = i;
       }
     }
   }
 
-  // Return the winner's details, use winnerIndex directly
+  // Return the winner's details
   return {
-    Winner: game.players[winnerIndex].name, // Access directly with winnerIndex
-    Score: game.players[winnerIndex].score, // Use the correct score
-    Time: times[winnerIndex], // Use the correct time
+    Winner: game.players[winnerIndex].name, // Access player's name using the index
+    Score: game.players[winnerIndex].score, // Use the score directly from scores array
+    Time: times[winnerIndex], // Use the time directly from times array
   };
 }
 
@@ -584,6 +596,7 @@ function startGameSound(seconds) {
     setTimeout(() => {
       clearInterval(game.backGroundMusic);
       game.gameRunningSound.pause();
+      game.gameRunningSound.currentTime = 0;
       console.log("Stopped background music.");
     }, timeInMilliseconds - 1000);
   }, 2000);
