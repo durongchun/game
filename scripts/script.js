@@ -329,9 +329,10 @@ function shuffleCards() {
   console.log("cards", JSON.stringify(game.cards));
   game.images.forEach((image, index) => {
     game.cardFaceDown[index].textContent = game.cards[index];
-    $(image).on("click", () =>
-      handleCardClick(image, game.cardFaceDown[index])
-    );
+    $(image).on("click", () => {
+      mouseClickSound();
+      handleCardClick(image, game.cardFaceDown[index]);
+    });
   });
 }
 
@@ -360,6 +361,7 @@ function resumeShuffleCards() {
     // Reapply the click event listener
     $(image).on("click", () => {
       console.log(`Card clicked [${index}]:`, game.cardFaceDown[index]);
+      mouseClickSound();
       handleCardClick(image, game.cardFaceDown[index]);
     });
   });
@@ -409,7 +411,6 @@ let preventClicks = false;
 let pairs = 0;
 
 function handleCardClick(image, cardFace) {
-  mouseClickSound();
   console.log("game.isRunning", game.isRunning);
   if (preventClicks || !game.isRunning) return;
 
@@ -559,15 +560,22 @@ function determineWinner() {
 }
 
 function winnerBoard() {
+  // Show the winner board and play sound if the audio element exists
   const gameWinner = document.getElementById("gameWinner");
   const game = document.getElementById("game");
+  gameWinner.classList.remove("d-none");
+  game.classList.add("d-none");
+
   const gameWinnerSound = document.getElementById("gameWinnerSound");
   const result = determineWinner();
 
-  // Show the winner board and play sound
-  gameWinner.classList.remove("d-none");
-  game.classList.add("d-none");
-  gameWinnerSound.play();
+  if (gameWinnerSound) {
+    gameWinnerSound.play().catch((error) => {
+      console.error("Failed to play the winner sound:", error);
+    });
+  } else {
+    console.error("Audio element with id 'gameWinnerSound' not found!");
+  }
 
   // Display the winner
   gameWinner.innerHTML = `
@@ -579,8 +587,14 @@ function winnerBoard() {
   setTimeout(() => {
     gameWinner.classList.add("d-none");
     game.classList.remove("d-none");
-    gameWinnerSound.pause();
-    gameWinnerSound.currentTime = 0; // Reset sound
+
+    if (gameWinnerSound) {
+      console.log("Lucyxxxxxx");
+      gameWinnerSound.pause();
+      gameWinnerSound.currentTime = 0; // Reset sound
+    }
+
+    console.log("game.classList", game.classList);
   }, 2000);
 
   // Log the result for debugging
@@ -608,9 +622,28 @@ function startGameSound(seconds) {
   }, 2000);
 }
 
+let isPlaying = false;
+
 function mouseClickSound() {
-  let mouseClickSound = document.getElementById("mouseClickSound");
-  mouseClickSound.play();
+  if (!isPlaying) {
+    isPlaying = true;
+    let mouseClickSound = document.getElementById("mouseClickSound");
+
+    if (mouseClickSound) {
+      mouseClickSound
+        .play()
+        .then(() => {
+          isPlaying = false; // Reset after the sound has played
+        })
+        .catch((error) => {
+          console.error("Failed to play the sound:", error);
+          isPlaying = false; // Reset on error
+        });
+    } else {
+      console.error("Audio element not found!");
+      isPlaying = false;
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {

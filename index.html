@@ -26,6 +26,11 @@
     </header>
     <section id="game">
       <audio src="./image/mouse-click-sound.mp3" id="mouseClickSound"></audio>
+      <audio
+        src="./image/you-win.mp3"
+        id="gameWinnerSound"
+        preload="auto"
+      ></audio>
       <div id="gameHeader">
         <div id="player">
           <h4>Player:</h4>
@@ -110,9 +115,7 @@
         <audio src="./image/game-music-loop.mp3" id="gameRunningSound"></audio>
       </div>
     </section>
-    <section id="gameWinner" class="d-none">
-      <audio src="./image/you-win.mp3" id="gameWinnerSound"></audio>
-    </section>
+    <section id="gameWinner" class="d-none"></section>
     <!-- Modal HTML -->
     <div
       class="modal fade"
