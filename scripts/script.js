@@ -46,6 +46,7 @@ const game = {
       const button = document.getElementById("myButton");
 
       button.addEventListener("click", () => {
+        mouseClickSound();
         const inputValue = inputBox.value.trim();
         if (inputValue) {
           const newPlayer = new Player(inputValue); // Create a new Player instance
@@ -120,6 +121,7 @@ const game = {
     console.log("start game....");
 
     this.startGameButt.addEventListener("click", () => {
+      mouseClickSound();
       this.isRunning = true;
       console.log("game is running", this.isRunning);
 
@@ -165,6 +167,7 @@ const game = {
     });
 
     this.resume.addEventListener("click", () => {
+      mouseClickSound();
       this.startGameButt.style.display = "none";
       this.pause.style.display = "block";
       this.pause.disabled = false;
@@ -179,6 +182,7 @@ const game = {
     });
 
     this.pause.addEventListener("click", () => {
+      mouseClickSound();
       console.log("Game paused");
       this.pause.style.display = "none"; // Hide pause button when paused
       this.resume.style.display = "block"; // Show resume button
@@ -210,6 +214,7 @@ const game = {
 
   switchPlayer() {
     this.switchPlayerButt.addEventListener("click", () => {
+      mouseClickSound();
       clearInterval(game.backGroundMusic);
       game.gameRunningSound.pause();
       game.gameRunningSound.currentTime = 0;
@@ -404,6 +409,7 @@ let preventClicks = false;
 let pairs = 0;
 
 function handleCardClick(image, cardFace) {
+  mouseClickSound();
   console.log("game.isRunning", game.isRunning);
   if (preventClicks || !game.isRunning) return;
 
@@ -602,11 +608,17 @@ function startGameSound(seconds) {
   }, 2000);
 }
 
+function mouseClickSound() {
+  let mouseClickSound = document.getElementById("mouseClickSound");
+  mouseClickSound.play();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
     // Event listener for input changes
     $("#num-pairs").on("change", function () {
+      mouseClickSound();
       game.numPairs = parseInt($(this).val());
       generateImagePairs(game.numPairs); // Populate the DOM
       shuffleCards(); // Shuffle cards after DOM is updated
@@ -620,6 +632,7 @@ document.addEventListener("DOMContentLoaded", () => {
     game.switchPlayer();
 
     $("#resetButt").on("click", function () {
+      mouseClickSound();
       // Add the fade-out class to the body
       document.body.classList.add("fade-out");
 
@@ -630,6 +643,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     $("#left-score").on("click", function () {
+      mouseClickSound();
       winnerBoard();
       const rightControl = document.querySelector("#right-control");
 
@@ -649,6 +663,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     $("#next").on("click", function () {
+      mouseClickSound();
       document.body.classList.add("fade-out");
 
       setTimeout(() => {
