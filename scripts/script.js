@@ -179,6 +179,7 @@ const game = {
       resumeShuffleCards();
       startCountdown(game.clockRemainingTime);
       stopAnimation(game.clockRemainingTime);
+      scoreBoard();
     });
 
     this.pause.addEventListener("click", () => {
@@ -197,6 +198,7 @@ const game = {
       game.gameRunningSound.currentTime = 0;
       clearInterval(game.countdownInterval);
       stopAnimation(0);
+      scoreBoard();
     });
   },
 
@@ -677,6 +679,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("#left-score").on("click", function () {
       mouseClickSound();
+      scoreBoard();
       winnerBoard();
       const rightControl = document.querySelector("#right-control");
 
