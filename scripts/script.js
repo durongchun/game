@@ -10,6 +10,7 @@ const game = {
   scoreboard3: "",
   startGameButt: "",
   switchPlayerButt: "",
+  isSwitchedPlayer: true,
   scoreBoardButt: "",
   resetButt: "",
   resume: "",
@@ -179,7 +180,6 @@ const game = {
       resumeShuffleCards();
       startCountdown(game.clockRemainingTime);
       stopAnimation(game.clockRemainingTime);
-      scoreBoard();
     });
 
     this.pause.addEventListener("click", () => {
@@ -198,7 +198,6 @@ const game = {
       game.gameRunningSound.currentTime = 0;
       clearInterval(game.countdownInterval);
       stopAnimation(0);
-      scoreBoard();
     });
   },
 
@@ -226,7 +225,13 @@ const game = {
       shuffleCards();
       clearInterval(game.countdownInterval);
       console.log("game.spentTime", game.spentTime);
-      scoreBoard();
+      if (game.isSwitchedPlayer) {
+        timeSpent();
+        scoreBoard();
+      } else {
+        scoreBoard();
+        game.isSwitchedPlayer = true;
+      }
 
       startCountdown(game.remainingTime);
       stopAnimation(game.remainingTime);
@@ -369,11 +374,23 @@ function resumeShuffleCards() {
   });
 }
 
-function scoreBoard() {
-  // Add the spent time for the current player to their total
+function timeSpent() {
   const totalSpent = game.spentTime;
+
   if (game.activePlayerIndex === 0) {
     game.player1TotalSpent += totalSpent;
+  } else if (game.activePlayerIndex === 1) {
+    game.player2TotalSpent += totalSpent;
+  } else if (game.activePlayerIndex === 2) {
+    game.player3TotalSpent += totalSpent;
+  }
+}
+
+function scoreBoard() {
+  // Add the spent time for the current player to their total
+  // const totalSpent = game.spentTime;
+  if (game.activePlayerIndex === 0) {
+    // game.player1TotalSpent += totalSpent;
     game.scoreboard1.textContent = `Score: ${game.players[0].getScore()}, Time: ${
       game.player1TotalSpent
     }s`;
@@ -382,7 +399,7 @@ function scoreBoard() {
       game.scoreboard1.textContent;
     console.log("Player 1 Total Spent Time:", game.player1TotalSpent);
   } else if (game.activePlayerIndex === 1) {
-    game.player2TotalSpent += totalSpent;
+    // game.player2TotalSpent += totalSpent;
     game.scoreboard2.textContent = `Score: ${game.players[1].getScore()}, Time: ${
       game.player2TotalSpent
     }s`;
@@ -391,7 +408,7 @@ function scoreBoard() {
     game.score2 = game.players[1].getScore();
     console.log("Player 2 Total Spent Time:", game.player2TotalSpent);
   } else if (game.activePlayerIndex === 2) {
-    game.player3TotalSpent += totalSpent;
+    // game.player3TotalSpent += totalSpent;
     game.scoreboard3.textContent = `Score: ${game.players[2].getScore()}, Time: ${
       game.player3TotalSpent
     }s`;
@@ -679,7 +696,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     $("#left-score").on("click", function () {
       mouseClickSound();
-      scoreBoard();
+      console.log("game.isSwitchedPlayer1: ", game.isSwitchedPlayer);
+      if (game.isSwitchedPlayer) {
+        timeSpent();
+        scoreBoard();
+        game.isSwitchedPlayer = false;
+        console.log("game.isSwitchedPlayer2: ", game.isSwitchedPlayer);
+      } else {
+        console.log("game.isSwitchedPlayer3: ", game.isSwitchedPlayer);
+        scoreBoard();
+      }
+
+      // if (
+      //   game.player1TotalSpent !== 0 &&
+      //   game.player2TotalSpent !== 0 &&
+      //   game.player3TotalSpent !== 0
+      // ) {
+      //   scoreBoard();
+      // } else {
+      //   timeSpent();
+      //   scoreBoard();
+      // }
+
       winnerBoard();
       const rightControl = document.querySelector("#right-control");
 
@@ -694,8 +732,6 @@ document.addEventListener("DOMContentLoaded", () => {
           rightControl.classList.add("d-none");
         }, 300); // Match the animation duration
       }
-
-      scoreBoard();
     });
 
     $("#next").on("click", function () {
