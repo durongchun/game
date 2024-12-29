@@ -4,7 +4,7 @@ const game = {
   title: "Memory Card",
   isRunning: false,
   players: [],
-  activePlayerIndex: 0, //this is activePlayer index
+  activePlayerIndex: 0,
   scoreboard1: "",
   scoreboard2: "",
   scoreboard3: "",
@@ -50,8 +50,9 @@ const game = {
         mouseClickSound();
         const inputValue = inputBox.value.trim();
         if (inputValue) {
-          const newPlayer = new Player(inputValue); // Create a new Player instance
-          this.players.push(newPlayer); // Store the instance
+          const newPlayer = new Player(inputValue);
+          // Store the instance
+          this.players.push(newPlayer);
 
           if (this.players.length === 1) {
             this.headerGrid1.textContent = newPlayer.name;
@@ -76,7 +77,8 @@ const game = {
           this.startGameButt.disabled = false;
           document.getElementById("player").style.display = "grid";
           resolve(newPlayer);
-          inputBox.value = ""; // Clear input box after adding
+          // Clear input box after adding
+          inputBox.value = "";
         } else {
           alert("Please enter a valid player name");
         }
@@ -173,7 +175,7 @@ const game = {
       this.pause.style.display = "block";
       this.pause.disabled = false;
       this.resume.style.display = "none";
-      this.switchPlayerButt.disabled = false; // Update reference
+      this.switchPlayerButt.disabled = false;
       this.scoreBoardButt.disabled = false;
       console.log("game is resume!");
       startGameSound(game.remainingTime);
@@ -185,9 +187,12 @@ const game = {
     this.pause.addEventListener("click", () => {
       mouseClickSound();
       console.log("Game paused");
-      this.pause.style.display = "none"; // Hide pause button when paused
-      this.resume.style.display = "block"; // Show resume button
-      this.isRunning = false; // Update game state to not running
+      // Hide pause button when paused
+      this.pause.style.display = "none";
+      // Show resume button
+      this.resume.style.display = "block";
+      // Update game state to not running
+      this.isRunning = false;
       this.switchPlayerButt.disabled = true;
       this.scoreBoardButt.disabled = true;
       console.log("xxxxxxxxxxx", game.countdownInterval);
@@ -275,35 +280,36 @@ function setClock(time) {
   document.querySelector("#clock").textContent = time;
 }
 
-// Function to generate image pairs
 function generateImagePairs(numPairs) {
-  $container.empty(); // Clear any existing elements
+  // Clear any existing elements
+  $container.empty();
 
   // Calculate the number of <div> elements to add based on selected pairs
   let divCount;
   switch (numPairs) {
     case 4:
       divCount = 4;
-      setClock("00:30:00");
+      setClock("00:30");
       game.remainingTime = 30;
       break;
     case 8:
       divCount = 8;
-      setClock("01:00:00");
+      setClock("01:00");
       game.remainingTime = 60;
       break;
     case 12:
       divCount = 12;
-      setClock("01:30:00");
+      setClock("01:30");
       game.remainingTime = 90;
       break;
     case 16:
       divCount = 16;
-      setClock("02:00:00");
+      setClock("02:00");
       game.remainingTime = 120;
       break;
     default:
-      divCount = 0; // Default to 0 in case of an invalid input
+      // Default to 0 in case of an invalid input
+      divCount = 0;
   }
 
   // Append the specified number of pairs
@@ -376,7 +382,6 @@ function resumeShuffleCards() {
 
 function timeSpent() {
   const totalSpent = game.spentTime;
-
   if (game.activePlayerIndex === 0) {
     game.player1TotalSpent += totalSpent;
   } else if (game.activePlayerIndex === 1) {
@@ -387,10 +392,7 @@ function timeSpent() {
 }
 
 function scoreBoard() {
-  // Add the spent time for the current player to their total
-  // const totalSpent = game.spentTime;
   if (game.activePlayerIndex === 0) {
-    // game.player1TotalSpent += totalSpent;
     game.scoreboard1.textContent = `Score: ${game.players[0].getScore()}, Time: ${
       game.player1TotalSpent
     }s`;
@@ -399,7 +401,6 @@ function scoreBoard() {
       game.scoreboard1.textContent;
     console.log("Player 1 Total Spent Time:", game.player1TotalSpent);
   } else if (game.activePlayerIndex === 1) {
-    // game.player2TotalSpent += totalSpent;
     game.scoreboard2.textContent = `Score: ${game.players[1].getScore()}, Time: ${
       game.player2TotalSpent
     }s`;
@@ -408,7 +409,6 @@ function scoreBoard() {
     game.score2 = game.players[1].getScore();
     console.log("Player 2 Total Spent Time:", game.player2TotalSpent);
   } else if (game.activePlayerIndex === 2) {
-    // game.player3TotalSpent += totalSpent;
     game.scoreboard3.textContent = `Score: ${game.players[2].getScore()}, Time: ${
       game.player3TotalSpent
     }s`;
@@ -425,7 +425,6 @@ function scoreBoard() {
   ).innerHTML = `Winner <span class="winner-name">${result.Winner}</span> <br> Score: ${result.Score}, Time: ${result.Time}s`;
 }
 
-// let clickCards = [];
 let preventClicks = false;
 let pairs = 0;
 
@@ -501,7 +500,6 @@ function formatTime(seconds) {
 
 // Function to start the countdown
 function startCountdown(seconds) {
-  // let countdownInterval; // Variable to store the countdown interval
   game.clockRemainingTime = seconds;
   const clockElement = document.querySelector("#clock");
 
@@ -538,10 +536,10 @@ function stopAnimation(seconds) {
 
   console.log("seconds: ", timeInMilliseconds);
 
-  // Set a timer to stop the animation after 30 seconds
   setTimeout(() => {
-    heartElement.style.animation = "none"; // Stop the animation
-  }, timeInMilliseconds); // 30 seconds in milliseconds
+    // Stop the animation
+    heartElement.style.animation = "none";
+  }, timeInMilliseconds);
 }
 
 function determineWinner() {
@@ -610,7 +608,8 @@ function winnerBoard() {
     if (gameWinnerSound) {
       console.log("Lucyxxxxxx");
       gameWinnerSound.pause();
-      gameWinnerSound.currentTime = 0; // Reset sound
+      // Reset sound
+      gameWinnerSound.currentTime = 0;
     }
 
     console.log("game.classList", game.classList);
@@ -652,11 +651,13 @@ function mouseClickSound() {
       mouseClickSound
         .play()
         .then(() => {
-          isPlaying = false; // Reset after the sound has played
+          // Reset after the sound has played
+          isPlaying = false;
         })
         .catch((error) => {
           console.error("Failed to play the sound:", error);
-          isPlaying = false; // Reset on error
+          // Reset on error
+          isPlaying = false;
         });
     } else {
       console.error("Audio element not found!");
@@ -668,12 +669,11 @@ function mouseClickSound() {
 document.addEventListener("DOMContentLoaded", () => {
   game.init();
   game.addPlayer().then(() => {
-    // Event listener for input changes
     $("#num-pairs").on("change", function () {
       mouseClickSound();
       game.numPairs = parseInt($(this).val());
-      generateImagePairs(game.numPairs); // Populate the DOM
-      shuffleCards(); // Shuffle cards after DOM is updated
+      generateImagePairs(game.numPairs);
+      shuffleCards();
     });
 
     // Initialize default pairs and shuffle
@@ -690,7 +690,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Set a delay for the page reload to match the fade-out duration
       setTimeout(() => {
-        window.location.reload(); // Refresh the page
+        window.location.reload();
       }, 1000);
     });
 
@@ -706,17 +706,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("game.isSwitchedPlayer3: ", game.isSwitchedPlayer);
         scoreBoard();
       }
-
-      // if (
-      //   game.player1TotalSpent !== 0 &&
-      //   game.player2TotalSpent !== 0 &&
-      //   game.player3TotalSpent !== 0
-      // ) {
-      //   scoreBoard();
-      // } else {
-      //   timeSpent();
-      //   scoreBoard();
-      // }
 
       winnerBoard();
       const rightControl = document.querySelector("#right-control");
