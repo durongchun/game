@@ -181,6 +181,7 @@ const game = {
       startGameSound(game.remainingTime);
       resumeShuffleCards();
       startCountdown(game.clockRemainingTime);
+      restartAnimation();
       stopAnimation(game.clockRemainingTime);
     });
 
@@ -222,13 +223,17 @@ const game = {
     this.switchPlayerButt.addEventListener("click", () => {
       mouseClickSound();
       clearInterval(game.backGroundMusic);
+      clearInterval(game.countdownInterval);
+      console.log(
+        `clear game.backGroundMusic when switching player: `,
+        game.backGroundMusic
+      );
       game.gameRunningSound.pause();
       game.gameRunningSound.currentTime = 0;
-      startGameSound(game.remainingTime);
+
       this.resetImages();
       generateImagePairs(game.numPairs);
       shuffleCards();
-      clearInterval(game.countdownInterval);
       console.log("game.spentTime", game.spentTime);
       if (game.isSwitchedPlayer) {
         timeSpent();
@@ -237,8 +242,9 @@ const game = {
         scoreBoard();
         game.isSwitchedPlayer = true;
       }
-
+      startGameSound(game.remainingTime);
       startCountdown(game.remainingTime);
+      restartAnimation();
       stopAnimation(game.remainingTime);
 
       //next player
@@ -464,6 +470,7 @@ function handleCardClick(image, cardFace) {
         const modalElement = document.querySelector("#alertModal");
         showAlertModal(modalElement);
         clearInterval(game.countdownInterval);
+        stopAnimation(0);
         pairs = 0;
       }
     } else {
@@ -538,8 +545,17 @@ function stopAnimation(seconds) {
 
   setTimeout(() => {
     // Stop the animation
-    heartElement.style.animation = "none";
+    // heartElement.style.animation = "none";
+    heartElement.classList.remove("heartbeat");
   }, timeInMilliseconds);
+}
+
+function restartAnimation() {
+  const heartElement = document.getElementById("heart");
+  // Add the class back after a small delay to restart the animation
+  setTimeout(() => {
+    heartElement.classList.add("heartbeat");
+  }, 10); // 10ms delay ensures the animation resets
 }
 
 function determineWinner() {
@@ -631,8 +647,15 @@ function startGameSound(seconds) {
       console.log("Game started, playing sound!");
     }, 500);
 
+    console.log("game.backGroundMusic: ", game.backGroundMusic);
+
     setTimeout(() => {
       clearInterval(game.backGroundMusic);
+      console.log(
+        `clear game.backGroundMusic after ${timeInMilliseconds - 1000}: `,
+        game.backGroundMusic
+      );
+
       game.gameRunningSound.pause();
       game.gameRunningSound.currentTime = 0;
       console.log("Stopped background music.");
