@@ -223,7 +223,6 @@ const game = {
     this.switchPlayerButt.addEventListener("click", () => {
       console.log("switched player");
       mouseClickSound();
-      // clearInterval(game.backGroundMusic);
       stopAnimation();
       stopGameSound();
       clearInterval(game.countdownInterval);
@@ -231,8 +230,6 @@ const game = {
         `clear game.backGroundMusic when switching player: `,
         game.backGroundMusic
       );
-
-      // stopRunningSound();
 
       this.resetImages();
       generateImagePairs(game.numPairs);
@@ -469,11 +466,9 @@ function handleCardClick(image, cardFace) {
 
       if (pairs === game.numPairs) {
         stopGameSound();
-        // stopRunningSound();
         const modalElement = document.querySelector("#alertModal");
         showAlertModal(modalElement);
         clearInterval(game.countdownInterval);
-        // stopAnimation(0);
         stopAnimation();
         pairs = 0;
       }
@@ -561,11 +556,11 @@ function restartAnimation() {
   // Add the class back after a small delay to restart the animation
   setTimeout(() => {
     heartElement.classList.add("heartbeat");
-  }, 10); // 10ms delay ensures the animation resets
+  }, 10);
 }
 
 function determineWinner() {
-  const scores = [game.score1, game.score2, game.score3]; // Corrected the repeated scoreboard3
+  const scores = [game.score1, game.score2, game.score3];
   const times = [
     game.player1TotalSpent,
     game.player2TotalSpent,
@@ -592,9 +587,9 @@ function determineWinner() {
 
   // Return the winner's details
   return {
-    Winner: game.players[winnerIndex].name, // Access player's name using the index
-    Score: game.players[winnerIndex].score, // Use the score directly from scores array
-    Time: times[winnerIndex], // Use the time directly from times array
+    Winner: game.players[winnerIndex].name,
+    Score: game.players[winnerIndex].score,
+    Time: times[winnerIndex],
   };
 }
 
@@ -635,7 +630,7 @@ function winnerBoard() {
     }
 
     console.log("game.classList", game.classList);
-  }, 2000);
+  }, 3000);
 
   // Log the result for debugging
   console.log("result: ", JSON.stringify(result));
@@ -676,7 +671,8 @@ function gameSoundPlay() {
 }
 
 function stopGameSound() {
-  isLooping = false; // Stop the loop
+  // Stop the loop
+  isLooping = false;
 
   // Pause and reset the sound
   if (game.gameRunningSound) {
@@ -724,7 +720,8 @@ function startAnimation() {
 
 // Function to stop the heartbeat animation
 function stopAnimation() {
-  isAnimating = false; // Stop the animation loop
+  // Stop the animation loop
+  isAnimating = false;
   const heartElement = document.querySelector("#heart");
 
   // Remove the animation class and reset the state
@@ -758,22 +755,6 @@ function mouseClickSound() {
       isPlaying = false;
     }
   }
-}
-
-function stopRunningSound() {
-  // Check if game.gameRunningSound is assigned correctly
-  if (
-    !game.gameRunningSound ||
-    typeof game.gameRunningSound.pause !== "function"
-  ) {
-    console.error("game.gameRunningSound is not a valid audio element!");
-    return;
-  }
-
-  // Pause the sound and reset its position
-  game.gameRunningSound.pause();
-  game.gameRunningSound.currentTime = 0;
-  console.log("Stopped game running sound.");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -811,9 +792,7 @@ document.addEventListener("DOMContentLoaded", () => {
         timeSpent();
         scoreBoard();
         game.isSwitchedPlayer = false;
-        console.log("game.isSwitchedPlayer2: ", game.isSwitchedPlayer);
       } else {
-        console.log("game.isSwitchedPlayer3: ", game.isSwitchedPlayer);
         scoreBoard();
       }
 
@@ -829,7 +808,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
           rightControl.classList.add("d-none");
-        }, 300); // Match the animation duration
+        }, 500);
       }
     });
 
