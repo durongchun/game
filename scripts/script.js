@@ -131,7 +131,7 @@ const game = {
       console.log("game is running", this.isRunning);
 
       if (this.isRunning) {
-        startGameSound(game.remainingTime);
+        gameSoundPlay();
         // Enable buttons
         this.switchPlayerButt.disabled = false;
         this.scoreBoardButt.disabled = false;
@@ -165,9 +165,9 @@ const game = {
         this.headerGrid1.classList.remove("disabled");
         this.scoreboard1.classList.remove("disabled");
 
-        // Start countdown and stop animation
+        // Start countdown and animation
         startCountdown(game.remainingTime);
-        stopAnimation(game.remainingTime);
+        startAnimation();
       }
     });
 
@@ -180,11 +180,11 @@ const game = {
       this.switchPlayerButt.disabled = false;
       this.scoreBoardButt.disabled = false;
       console.log("game is resume!");
-      startGameSound(game.remainingTime);
+      gameSoundPlay();
       resumeShuffleCards();
       startCountdown(game.clockRemainingTime);
       restartAnimation();
-      stopAnimation(game.clockRemainingTime);
+      stopAnimation();
     });
 
     this.pause.addEventListener("click", () => {
@@ -201,10 +201,9 @@ const game = {
       console.log("xxxxxxxxxxx", game.countdownInterval);
       console.log("game.clockRemainingTime: ", game.clockRemainingTime);
 
-      clearInterval(game.backGroundMusic);
-      stopRunningSound();
+      stopGameSound();
       clearInterval(game.countdownInterval);
-      stopAnimation(0);
+      stopAnimation();
     });
   },
 
@@ -222,15 +221,18 @@ const game = {
 
   switchPlayer() {
     this.switchPlayerButt.addEventListener("click", () => {
+      console.log("switched player");
       mouseClickSound();
-      clearInterval(game.backGroundMusic);
+      // clearInterval(game.backGroundMusic);
+      stopAnimation();
+      stopGameSound();
       clearInterval(game.countdownInterval);
       console.log(
         `clear game.backGroundMusic when switching player: `,
         game.backGroundMusic
       );
 
-      stopRunningSound();
+      // stopRunningSound();
 
       this.resetImages();
       generateImagePairs(game.numPairs);
@@ -244,10 +246,10 @@ const game = {
         game.isSwitchedPlayer = true;
       }
       console.log("switch player game.remainingTime: ", game.remainingTime);
-      startGameSound(game.remainingTime);
+
+      gameSoundPlay();
       startCountdown(game.remainingTime);
-      restartAnimation();
-      stopAnimation(game.remainingTime);
+      startAnimation();
 
       //next player
       this.activePlayerIndex =
@@ -466,12 +468,13 @@ function handleCardClick(image, cardFace) {
         .addClass("matched");
 
       if (pairs === game.numPairs) {
-        clearInterval(game.backGroundMusic);
-        stopRunningSound();
+        stopGameSound();
+        // stopRunningSound();
         const modalElement = document.querySelector("#alertModal");
         showAlertModal(modalElement);
         clearInterval(game.countdownInterval);
-        stopAnimation(0);
+        // stopAnimation(0);
+        stopAnimation();
         pairs = 0;
       }
     } else {
@@ -544,25 +547,13 @@ function startCountdown(seconds) {
       clearInterval(game.countdownInterval);
       clockElement.textContent = "00:00";
       setTimeout(() => {
+        stopGameSound();
         const modal = document.querySelector("#alertModal2");
         showAlertModal(modal);
+        stopAnimation();
       }, 10);
     }
   }, 1000);
-}
-
-function stopAnimation(seconds) {
-  // Start the heartbeat animation
-  const timeInMilliseconds = seconds * 1000;
-  const heartElement = document.querySelector("#heart");
-
-  console.log("seconds: ", timeInMilliseconds);
-
-  setTimeout(() => {
-    // Stop the animation
-    // heartElement.style.animation = "none";
-    heartElement.classList.remove("heartbeat");
-  }, timeInMilliseconds);
 }
 
 function restartAnimation() {
@@ -650,59 +641,97 @@ function winnerBoard() {
   console.log("result: ", JSON.stringify(result));
 }
 
-function startGameSound(seconds) {
-  const START_DELAY = 2000; // Delay before starting the game sound (2 seconds)
-  const INTERVAL_DELAY = 500; // Interval for background music (0.5 seconds)
-  const timeInMilliseconds = seconds * 1000;
+// Flag to control the loop
+let isLooping = false;
 
-  const gameStartSound = document.getElementById("gameStartSound");
-  // const gameRunningSound = document.getElementById("gameRunningSound");
+function gameSoundPlay() {
+  const INTERVAL_DELAY = 500; // Set an interval (e.g., 500ms)
 
-  // Check if elements exist
-  if (!gameStartSound || !game.gameRunningSound) {
-    console.error("Audio elements not found!");
+  // Check if the audio element is available
+  if (!game.gameRunningSound) {
+    console.error("Game running sound element not found!");
     return;
   }
 
-  // Play the initial game start sound
-  gameStartSound
-    .play()
-    .then(() => {
-      console.log("Game start sound playing...");
-    })
-    .catch((error) => {
-      console.error("Error playing gameStartSound:", error);
-    });
+  // Start the loop
+  function playSoundInLoop() {
+    if (!isLooping) return; // Stop the loop if the flag is false
 
-  setTimeout(() => {
-    // Start playing the background music in intervals
-    game.backGroundMusic = setInterval(() => {
-      game.gameRunningSound
-        .play()
-        .then(() => {
-          console.log("Game running sound playing...");
-        })
-        .catch((error) => {
-          console.error("Error playing gameRunningSound:", error);
-        });
-    }, INTERVAL_DELAY);
+    game.gameRunningSound
+      .play()
+      .then(() => {
+        console.log("Game running sound playing...");
+      })
+      .catch((error) => {
+        console.error("Error playing gameRunningSound:", error);
+      });
 
-    console.log("game.backGroundMusic: ", game.backGroundMusic);
+    // Call this function again after the delay to continue the loop
+    setTimeout(playSoundInLoop, INTERVAL_DELAY);
+  }
 
-    // Stop the background music after the specified duration
+  // Set the flag to true and start the loop
+  isLooping = true;
+  playSoundInLoop();
+}
+
+function stopGameSound() {
+  isLooping = false; // Stop the loop
+
+  // Pause and reset the sound
+  if (game.gameRunningSound) {
+    game.gameRunningSound.pause();
+    game.gameRunningSound.currentTime = 0;
+    console.log("Stopped game running sound.");
+  }
+}
+
+// Flag to control the animation loop
+let isAnimating = false;
+
+// Function to start the heartbeat animation
+function startAnimation() {
+  const heartElement = document.querySelector("#heart");
+
+  if (!heartElement) {
+    console.error("Heart element not found!");
+    return;
+  }
+
+  // Function to add the heartbeat class in a loop
+  function animateLoop() {
+    // If isAnimating is false, stop the loop
+    if (!isAnimating) return;
+
+    // Add animation class to start the animation
+    heartElement.classList.add("heartbeat");
+    console.log("Started heartbeat animation...");
+
+    // We can use setTimeout to call this function again and repeat the animation
     setTimeout(() => {
-      clearInterval(game.backGroundMusic);
-      console.log(
-        `clear game.backGroundMusic after ${timeInMilliseconds - 1000}: `,
-        game.backGroundMusic
-      );
+      // Remove the animation class so it can restart the animation
+      heartElement.classList.remove("heartbeat");
 
-      // Safely pause and reset the sound
-      game.gameRunningSound.pause();
-      game.gameRunningSound.currentTime = 0;
-      console.log("Stopped background music.");
-    }, timeInMilliseconds - 1000 + START_DELAY); // Adjust for the 2-second delay
-  }, START_DELAY);
+      // Call animateLoop to continue the animation
+      if (isAnimating) animateLoop();
+    }, 1000); // Adjust the duration of animation if needed (e.g., 1s for heartbeat)
+  }
+
+  // Start the animation loop
+  isAnimating = true;
+  animateLoop();
+}
+
+// Function to stop the heartbeat animation
+function stopAnimation() {
+  isAnimating = false; // Stop the animation loop
+  const heartElement = document.querySelector("#heart");
+
+  // Remove the animation class and reset the state
+  if (heartElement) {
+    heartElement.classList.remove("heartbeat");
+    console.log("Stopped heartbeat animation.");
+  }
 }
 
 let isPlaying = false;
