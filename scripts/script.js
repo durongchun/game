@@ -107,6 +107,8 @@ const game = {
     this.score1 = document.getElementById("score1");
     this.score2 = document.getElementById("score1");
     this.score3 = document.getElementById("score1");
+    this.gameRunningSound = document.getElementById("gameRunningSound");
+    console.log("Audio element:", game.gameRunningSound);
 
     this.startGameButt.disabled = true;
     this.switchPlayerButt.disabled = true;
@@ -200,8 +202,7 @@ const game = {
       console.log("game.clockRemainingTime: ", game.clockRemainingTime);
 
       clearInterval(game.backGroundMusic);
-      game.gameRunningSound.pause();
-      game.gameRunningSound.currentTime = 0;
+      stopRunningSound();
       clearInterval(game.countdownInterval);
       stopAnimation(0);
     });
@@ -228,8 +229,8 @@ const game = {
         `clear game.backGroundMusic when switching player: `,
         game.backGroundMusic
       );
-      game.gameRunningSound.pause();
-      game.gameRunningSound.currentTime = 0;
+
+      stopRunningSound();
 
       this.resetImages();
       generateImagePairs(game.numPairs);
@@ -242,6 +243,7 @@ const game = {
         scoreBoard();
         game.isSwitchedPlayer = true;
       }
+      console.log("switch player game.remainingTime: ", game.remainingTime);
       startGameSound(game.remainingTime);
       startCountdown(game.remainingTime);
       restartAnimation();
@@ -465,8 +467,7 @@ function handleCardClick(image, cardFace) {
 
       if (pairs === game.numPairs) {
         clearInterval(game.backGroundMusic);
-        game.gameRunningSound.pause();
-        game.gameRunningSound.currentTime = 0;
+        stopRunningSound();
         const modalElement = document.querySelector("#alertModal");
         showAlertModal(modalElement);
         clearInterval(game.countdownInterval);
@@ -489,8 +490,22 @@ function showAlertModal(modal) {
   if (modal) {
     const alertModal = new bootstrap.Modal(modal);
     const gameOverSound = document.getElementById("gameOverSound");
-    gameOverSound.play();
+
+    if (gameOverSound) {
+      gameOverSound.play().catch((error) => {
+        console.error("Failed to play gameOverSound:", error);
+      });
+    }
+
     alertModal.show();
+
+    // Ensure focus is set to the modal
+    modal.addEventListener("shown.bs.modal", () => {
+      const firstFocusableElement = modal.querySelector(
+        "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
+      );
+      firstFocusableElement?.focus();
+    });
   } else {
     console.error("Modal element not found!");
   }
@@ -636,19 +651,45 @@ function winnerBoard() {
 }
 
 function startGameSound(seconds) {
+  const START_DELAY = 2000; // Delay before starting the game sound (2 seconds)
+  const INTERVAL_DELAY = 500; // Interval for background music (0.5 seconds)
   const timeInMilliseconds = seconds * 1000;
+
   const gameStartSound = document.getElementById("gameStartSound");
-  gameStartSound.play();
+  // const gameRunningSound = document.getElementById("gameRunningSound");
+
+  // Check if elements exist
+  if (!gameStartSound || !game.gameRunningSound) {
+    console.error("Audio elements not found!");
+    return;
+  }
+
+  // Play the initial game start sound
+  gameStartSound
+    .play()
+    .then(() => {
+      console.log("Game start sound playing...");
+    })
+    .catch((error) => {
+      console.error("Error playing gameStartSound:", error);
+    });
 
   setTimeout(() => {
+    // Start playing the background music in intervals
     game.backGroundMusic = setInterval(() => {
-      game.gameRunningSound = document.getElementById("gameRunningSound");
-      gameRunningSound.play();
-      console.log("Game started, playing sound!");
-    }, 500);
+      game.gameRunningSound
+        .play()
+        .then(() => {
+          console.log("Game running sound playing...");
+        })
+        .catch((error) => {
+          console.error("Error playing gameRunningSound:", error);
+        });
+    }, INTERVAL_DELAY);
 
     console.log("game.backGroundMusic: ", game.backGroundMusic);
 
+    // Stop the background music after the specified duration
     setTimeout(() => {
       clearInterval(game.backGroundMusic);
       console.log(
@@ -656,11 +697,12 @@ function startGameSound(seconds) {
         game.backGroundMusic
       );
 
+      // Safely pause and reset the sound
       game.gameRunningSound.pause();
       game.gameRunningSound.currentTime = 0;
       console.log("Stopped background music.");
-    }, timeInMilliseconds - 1000);
-  }, 2000);
+    }, timeInMilliseconds - 1000 + START_DELAY); // Adjust for the 2-second delay
+  }, START_DELAY);
 }
 
 let isPlaying = false;
@@ -687,6 +729,22 @@ function mouseClickSound() {
       isPlaying = false;
     }
   }
+}
+
+function stopRunningSound() {
+  // Check if game.gameRunningSound is assigned correctly
+  if (
+    !game.gameRunningSound ||
+    typeof game.gameRunningSound.pause !== "function"
+  ) {
+    console.error("game.gameRunningSound is not a valid audio element!");
+    return;
+  }
+
+  // Pause the sound and reset its position
+  game.gameRunningSound.pause();
+  game.gameRunningSound.currentTime = 0;
+  console.log("Stopped game running sound.");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
