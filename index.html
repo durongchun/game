@@ -26,9 +26,9 @@
       </div>
     </header>
     <section id="game">
-      <audio src="./image/mouse-click-sound.mp3" id="mouseClickSound"></audio>
+      <audio src="./audio/mouse-click-sound.mp3" id="mouseClickSound"></audio>
       <audio
-        src="./image/you-win.mp3"
+        src="./audio/you-win.mp3"
         id="gameWinnerSound"
         preload="auto"
       ></audio>
@@ -105,15 +105,12 @@
           </div>
           <div id="ready">
             <label for="start">Are you ready?</label>
-            <audio
-              src="./image/gamestart-272829.mp3"
-              id="gameStartSound"
-            ></audio>
+            <audio src="./audio/gamestart.mp3" id="gameStartSound"></audio>
             <button id="start">Start Game</button>
           </div>
         </div>
         <div id="gameCard"></div>
-        <audio src="./image/game-music-loop.mp3" id="gameRunningSound"></audio>
+        <audio src="./audio/game-music-loop.mp3" id="gameRunningSound"></audio>
       </div>
     </section>
     <section id="gameWinner" class="d-none"></section>
@@ -157,7 +154,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content text-white">
           <div class="modal-header">
-            <audio src="./image/game-over.mp3" id="gameOverSound"></audio>
+            <audio src="./audio/game-over.mp3" id="gameOverSound"></audio>
             <button
               type="button"
               class="btn-close"

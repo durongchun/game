@@ -142,7 +142,7 @@ const game = {
         this.playerJoin.style.display = "none";
         this.resetButt.style.display = "block";
         document.getElementById("game").style.backgroundImage =
-          'url("../image/pexels-heather-rosario-1293045183-24363595.jpg")';
+          'url("../image/pexels-heather-rosario.jpg")';
         document.getElementById("pairStart").style.display = "none";
 
         // Add animation classes to the elements
@@ -821,7 +821,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("pairStart").classList.remove("d-none");
         document.getElementById("playerJoin").classList.add("d-none");
         document.getElementById("game").style.backgroundImage =
-          'url("../image/zane-lee-IHj0xtWtLKE-unsplash.jpg")';
+          'url("../image/zane-lee-unsplash.jpg")';
         document.body.classList.remove("fade-out");
       }, 800);
     });
