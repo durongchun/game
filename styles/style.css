@@ -29,7 +29,8 @@ body {
 /* Fade-out effect from bottom to top */
 body.fade-out {
   opacity: 0;
-  transform: translateY(50px); /* Moves content downward while fading out */
+  /* Moves content downward */
+  transform: translateY(50px);
 }
 
 button,
@@ -62,17 +63,17 @@ select:hover,
 
 #player:hover,
 .board:hover {
-  transform: scale(0.98); /* Slightly enlarge the button */
+  transform: scale(0.98);
 }
 
 #right-control:hover {
-  transform: scale(1.08); /* Slightly enlarge the button */
+  transform: scale(1.08);
 }
 
 #right-control > div:hover,
 #right-control > div > h5:hover {
-  background-color: #efa608; /* Darker blue on hover */
-  transform: scale(0.9); /* Slightly enlarge the button */
+  background-color: #efa608;
+  transform: scale(0.9);
   border-radius: 10px;
   height: auto;
   padding: 0;
@@ -95,7 +96,6 @@ footer {
   color: #c1aa7f;
   align-items: center;
   justify-content: center;
-  /* height: 3rem; */
   width: 100%;
 }
 
@@ -307,7 +307,6 @@ select {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(4, 1fr);
-  /* height: 40rem; */
   width: 44rem;
   align-items: start;
   gap: 1rem;
@@ -354,7 +353,6 @@ select {
 
 .hidden {
   visibility: hidden;
-  /* Hides the element but keeps its space in the layout */
 }
 
 .card-face-down {
@@ -391,7 +389,7 @@ select {
 
 .winner-name {
   color: red;
-  display: inline-block; /* Add this line */
+  display: inline-block;
   animation: jump 0.5s infinite;
   font-size: 30px;
   font-weight: 700;
@@ -425,9 +423,10 @@ select {
   }
 }
 
+/* Apply animation */
 .heartbeat {
   display: inline-block;
-  animation: heartbeat 1s infinite; /* Apply animation */
+  animation: heartbeat 1s infinite;
 }
 
 @keyframes heartbeat {
@@ -469,7 +468,7 @@ select {
 }
 
 #right-control {
-  display: none; /* Hide by default */
+  display: none;
   transform: translateX(-100%);
   opacity: 0;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
