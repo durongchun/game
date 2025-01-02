@@ -399,6 +399,58 @@ select {
   font-size: 24px;
 }
 
+footer button {
+  display: none;
+  height: 2rem;
+  width: 13rem;
+  border-radius: 45%;
+  font-size: 18px;
+}
+
+/* Apply animation */
+.heartbeat {
+  display: inline-block;
+  animation: heartbeat 1s infinite;
+}
+
+#right-control {
+  display: none;
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+#right-control.slide-in {
+  display: block;
+  animation: slide-in 0.3s forwards;
+}
+
+#right-control.slide-out {
+  animation: slide-out 0.3s forwards;
+}
+
+/* Apply the animation to elements */
+.show-up {
+  animation: slideIn 1s ease-out forwards;
+}
+
+/* Optional: Delay to control the sequence of appearances */
+.show-up-delay-1 {
+  animation-delay: 0.2s;
+}
+
+.show-up-delay-2 {
+  animation-delay: 0.4s;
+}
+
+.show-up-delay-3 {
+  animation-delay: 0.6s;
+}
+
+.show-up-delay-4 {
+  animation-delay: 0.8s;
+}
+
 @keyframes jump {
   0% {
     transform: translateY(0);
@@ -421,12 +473,6 @@ select {
     transform: rotate(360deg);
     /* End position */
   }
-}
-
-/* Apply animation */
-.heartbeat {
-  display: inline-block;
-  animation: heartbeat 1s infinite;
 }
 
 @keyframes heartbeat {
@@ -467,22 +513,6 @@ select {
   }
 }
 
-#right-control {
-  display: none;
-  transform: translateX(-100%);
-  opacity: 0;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-#right-control.slide-in {
-  display: block;
-  animation: slide-in 0.3s forwards;
-}
-
-#right-control.slide-out {
-  animation: slide-out 0.3s forwards;
-}
-
 /* Add this CSS for the transition effects */
 @keyframes slideIn {
   from {
@@ -493,34 +523,4 @@ select {
     transform: translateY(0);
     opacity: 1;
   }
-}
-
-/* Apply the animation to elements */
-.show-up {
-  animation: slideIn 1s ease-out forwards;
-}
-
-/* Optional: Delay to control the sequence of appearances */
-.show-up-delay-1 {
-  animation-delay: 0.2s;
-}
-
-.show-up-delay-2 {
-  animation-delay: 0.4s;
-}
-
-.show-up-delay-3 {
-  animation-delay: 0.6s;
-}
-
-.show-up-delay-4 {
-  animation-delay: 0.8s;
-}
-
-footer button {
-  display: none;
-  height: 2rem;
-  width: 13rem;
-  border-radius: 45%;
-  font-size: 18px;
 }
