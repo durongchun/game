@@ -40,8 +40,10 @@ input,
   border-radius: 30px;
 }
 
-.modal-footer > button {
+.modal-footer > button,
+.modal-header > button {
   background-color: white;
+  font-size: 18px;
 }
 
 button:hover,
